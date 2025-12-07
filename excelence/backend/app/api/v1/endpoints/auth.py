@@ -33,6 +33,11 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
             "email": form_data.username,
             "password": form_data.password,
         })
-        return res
+        if res.session:
+            return {
+                "access_token": res.session.access_token,
+                "token_type": "bearer"
+            }
+        raise HTTPException(status_code=401, detail="Invalid credentials")
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))

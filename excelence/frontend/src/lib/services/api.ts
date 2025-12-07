@@ -113,4 +113,16 @@ export const loginUser = (email: string, password: string) => {
   });
 };
 
+export const exportTransactions = async () => {
+    const response = await fetch(`${BASE_URL}/api/v1/export/csv`, {
+      method: 'GET',
+      headers: getHeaders(),
+    });
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Export failed');
+    }
+    return response.blob();
+};
+
 export default api;

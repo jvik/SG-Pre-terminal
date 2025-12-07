@@ -1,0 +1,86 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>3.3</storyId>
+    <title>Export Budget Data</title>
+    <status>drafted</status>
+    <generatedAt>Sunday, December 7, 2025</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-3-export-budget-data.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>export my transaction data to a CSV file</iWant>
+    <soThat>I can perform my own analysis or keep a local backup</soThat>
+    <tasks>
+-   [ ] **Backend: Create Export Endpoint** (AC: #1, #2)
+    -   [ ] Create `backend/app/api/v1/endpoints/export.py`.
+    -   [ ] Implement `GET /api/v1/export/csv` endpoint.
+    -   [ ] Fetch all transactions for the authenticated user (joined with categories).
+    -   [ ] Use Python's `csv` module to generate CSV content in memory.
+    -   [ ] Return `StreamingResponse` with `media_type="text/csv"` and header `Content-Disposition: attachment; filename="export.csv"`.
+    -   [ ] **Testing**: Add integration test in `backend/tests/api/v1/test_export.py` verifying status 200, headers, and CSV content structure.
+-   [ ] **Frontend: Add Export Button** (AC: #1)
+    -   [ ] In `frontend/src/routes/dashboard/+page.svelte`, add an "Export to CSV" button.
+    -   [ ] Implement the button click handler to trigger the download using `fetch` with the `Authorization` header.
+    -   [ ] Handle the response as a `Blob`, create an object URL, and trigger a download via a hidden `<a>` tag.
+    -   [ ] **Testing**: Update `dashboard/+page.svelte` tests to verify button presence and click interaction.
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+1.  **Given** a user is on their dashboard, **when** they click an "Export to CSV" button, **then** a `.csv` file is generated and downloaded by their browser.
+2.  **And** the file contains all their income and expense transactions, including columns for date, description, category, and amount.
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/epics.md" title="Epics" section="Epic 3: Dashboard, Visualization &amp; Data Export" snippet="Focuses on providing users with insights into their financial status... and the ability to export their data." />
+      <doc path="docs/sprint-artifacts/tech-spec-epic-3.md" title="Epic Technical Specification" section="Detailed Design - Export to CSV" snippet="Endpoint: GET /api/v1/export/csv. Generates and returns a CSV file of all the user's transactions." />
+      <doc path="docs/ux-design-specification.md" title="UX Design Specification" section="Visual Foundation" snippet="Primary Action Button: Solid background color (bg-primary). Secondary: Bordered." />
+      <doc path="docs/architecture.md" title="Architecture" section="API Design &amp; Communication" snippet="All new endpoints must be protected and scoped to the authenticated user." />
+    </docs>
+    <code>
+      <item path="excelence/backend/app/api/v1/endpoints/transactions.py" kind="endpoint" symbol="list_transactions" lines="25-41" reason="Reference for fetching user transactions from Supabase." />
+      <item path="excelence/frontend/src/routes/dashboard/+page.svelte" kind="svelte-page" symbol="Dashboard" lines="1-64" reason="Page where the 'Export to CSV' button will be added." />
+      <item path="excelence/frontend/src/lib/services/api.ts" kind="service" symbol="api" lines="1-80" reason="Service to add the export function call using fetch and blob handling." />
+      <item path="excelence/backend/pyproject.toml" kind="config" symbol="dependencies" reason="Check available python packages." />
+    </code>
+    <dependencies>
+      <backend>fastapi, uvicorn, pydantic, supabase, python-dotenv</backend>
+      <frontend>svelte, @sveltejs/kit, chart.js, tailwindcss</frontend>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - **Authentication:** Must use JWT `Authorization: Bearer <token>` header for the export request. Standard `&lt;a href&gt;` will NOT work.
+    - **CSV Generation:** Use Python's built-in `csv` module.
+    - **Data Scope:** Export must strictly be scoped to the authenticated `user_id`.
+    - **Response Type:** Backend must return `StreamingResponse` with `media_type="text/csv"`.
+    - **Frontend Handling:** Frontend must handle the response as a `Blob`, create an object URL, and trigger download.
+  </constraints>
+
+  <interfaces>
+    <api name="Export CSV" kind="REST" signature="GET /api/v1/export/csv" path="backend/app/api/v1/endpoints/export.py" />
+    <function name="exportTransactions" kind="frontend-service" signature="exportTransactions(): Promise<Blob>" path="frontend/src/lib/services/api.ts" />
+  </interfaces>
+
+  <tests>
+    <standards>
+      Backend: Use `pytest` and `httpx` (or `TestClient`) to verify status 200, correct headers (`Content-Disposition`), and CSV content.
+      Frontend: Use `vitest` and `@testing-library/svelte` to verify the button appears and triggers the correct service call.
+    </standards>
+    <locations>
+      <backend>backend/tests/api/v1/test_export.py</backend>
+      <frontend>frontend/src/routes/dashboard/dashboard.test.ts</frontend>
+    </locations>
+    <ideas>
+      <test id="1" ac="1">Verify endpoint returns 200 and text/csv content type.</test>
+      <test id="2" ac="2">Verify CSV contains correct headers: Date, Description, Category, Amount, Type.</test>
+      <test id="3" ac="2">Verify exported data matches the user's transactions in DB.</test>
+      <test id="4" ac="1">Verify export is empty if user has no transactions.</test>
+      <test id="5" ac="1">Verify unauthorized request returns 401.</test>
+    </ideas>
+  </tests>
+</story-context>

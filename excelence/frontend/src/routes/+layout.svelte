@@ -3,6 +3,8 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import { authStore } from '$lib/stores/auth';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import { browser } from '$app/environment';
 
 	let { children } = $props();
 
@@ -10,6 +12,15 @@
 		authStore.logout();
 		goto('/login');
 	}
+
+	$effect(() => {
+		if (browser && !$authStore.isAuthenticated) {
+			const publicRoutes = ['/login', '/register'];
+			if (!publicRoutes.includes($page.url.pathname)) {
+				goto('/login');
+			}
+		}
+	});
 </script>
 
 <svelte:head>
