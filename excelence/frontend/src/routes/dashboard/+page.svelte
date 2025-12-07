@@ -2,10 +2,12 @@
 	import { onMount } from 'svelte';
 	import TransactionForm from '$lib/components/shared/TransactionForm.svelte';
 	import FinancialSummary from '$lib/components/routes/dashboard/FinancialSummary.svelte';
+	import SpendingChart from '$lib/components/routes/dashboard/SpendingChart.svelte';
 	import {
 		categories,
 		transactions,
 		summary,
+		chartData,
 		loadCategories,
 		loadTransactions
 	} from '$lib/stores/data';
@@ -42,6 +44,11 @@
 
 	<div class="mb-6">
 		<FinancialSummary {...$summary} />
+	</div>
+
+	<div class="mb-6 bg-white shadow-md rounded p-4">
+		<h2 class="text-xl font-bold mb-4">Spending Breakdown</h2>
+		<SpendingChart chartData={$chartData} />
 	</div>
 
 	<div class="bg-white shadow-md rounded">

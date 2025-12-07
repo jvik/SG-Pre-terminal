@@ -43,6 +43,60 @@ def test_get_financial_summary_integration(
             {'p_user_id': str(USER_ID)}
         )
 
+def test_get_chart_data_integration(
+    authenticated_client: TestClient,
+    USER_ID,
+) -> None:
+    """
+    Test the chart data endpoint, mocking the database RPC call.
+    """
+    mock_chart_data = [
+        {"category_name": "Food", "total_amount": 100.0},
+        {"category_name": "Transport", "total_amount": 50.0}
+    ]
+
+    with patch('app.db.session.supabase.rpc') as mock_rpc:
+        mock_execute = MagicMock()
+        type(mock_execute).data = PropertyMock(return_value=mock_chart_data)
+        mock_rpc.return_value.execute.return_value = mock_execute
+
+        response = authenticated_client.get(
+            f"{settings.API_V1_STR}/dashboard/chart-data"
+        )
+        
+        assert response.status_code == 200
+        content = response.json()
+        assert content["status"] == "success"
+        assert len(content["data"]) == 2
+        assert content["data"][0]["category_name"] == "Food"
+        assert content["data"][0]["total_amount"] == 100.0
+        
+        mock_rpc.assert_called_once_with(
+            'get_expenses_by_category',
+            {'p_user_id': str(USER_ID)}
+        )
+
+def test_get_chart_data_empty(
+    authenticated_client: TestClient,
+    USER_ID,
+) -> None:
+    """
+    Test chart data with no expenses.
+    """
+    with patch('app.db.session.supabase.rpc') as mock_rpc:
+        mock_execute = MagicMock()
+        type(mock_execute).data = PropertyMock(return_value=[])
+        mock_rpc.return_value.execute.return_value = mock_execute
+
+        response = authenticated_client.get(
+            f"{settings.API_V1_STR}/dashboard/chart-data"
+        )
+        
+        assert response.status_code == 200
+        content = response.json()
+        assert content["status"] == "success"
+        assert content["data"] == []
+
 def test_get_financial_summary_no_transactions(
     authenticated_client: TestClient,
     USER_ID,

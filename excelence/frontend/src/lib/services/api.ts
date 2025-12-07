@@ -95,6 +95,10 @@ export const getSummary = () => {
   return api.get('/api/v1/dashboard/summary');
 };
 
+export const getChartData = () => {
+  return api.get('/api/v1/dashboard/chart-data');
+};
+
 // --- Auth Specific Functions ---
 export const registerUser = (email: string, password: string) => {
   return api.post('/api/v1/auth/signup', { email, password });

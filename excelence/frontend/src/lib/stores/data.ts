@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { getCategories, getTransactions, getSummary } from '$lib/services/api';
+import { getCategories, getTransactions, getSummary, getChartData } from '$lib/services/api';
 
 // --- Stores ---
 export const categories = writable([]);
@@ -9,6 +9,7 @@ export const summary = writable({
 	total_expenses: 0,
 	net_balance: 0
 });
+export const chartData = writable([]);
 
 // --- Loading Functions ---
 export const loadCategories = async () => {
@@ -29,12 +30,22 @@ export const loadSummary = async () => {
 	}
 };
 
+export const loadChartData = async () => {
+	try {
+		const response = await getChartData();
+		chartData.set(response.data || []);
+	} catch (error) {
+		console.error('Failed to load chart data:', error);
+	}
+};
+
 export const loadTransactions = async () => {
 	try {
 		const data = await getTransactions();
 		transactions.set(data);
-		// Always refresh summary when transactions change
+		// Always refresh summary and chart data when transactions change
 		await loadSummary();
+		await loadChartData();
 	} catch (error) {
 		console.error('Failed to load transactions:', error);
 	}

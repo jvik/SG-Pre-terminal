@@ -36,3 +36,16 @@ def get_summary(user_id: uuid.UUID) -> dict:
         "net_balance": 0
     }
 
+def get_expenses_by_category(user_id: uuid.UUID) -> list[dict]:
+    """
+    Retrieves the expenses aggregated by category for a user.
+    """
+    response = supabase.rpc(
+        'get_expenses_by_category',
+        {'p_user_id': str(user_id)}
+    ).execute()
+
+    if response.data:
+        return response.data
+    return []
+

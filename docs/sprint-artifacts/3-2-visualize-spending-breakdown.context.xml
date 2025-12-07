@@ -1,0 +1,116 @@
+<story-context id="3-2-visualize-spending-breakdown" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>2</storyId>
+    <title>Visualize Spending Breakdown</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-07</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-2-visualize-spending-breakdown.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to see a simple chart on my dashboard that visualizes my expenses by category</iWant>
+    <soThat>I can easily identify where my money is going</soThat>
+    <tasks>
+      <task name="Backend: Create Chart Data Endpoint" ac_ref="1">
+        <subtasks>
+          <subtask>Implement `GET /api/v1/dashboard/chart-data` in `excelence/backend/app/api/v1/endpoints/dashboard.py`</subtask>
+          <subtask>Add business logic to `excelence/backend/app/crud/` to aggregate expense data by category</subtask>
+          <subtask>Ensure the endpoint is protected and the database query is scoped to the authenticated `user_id`</subtask>
+        </subtasks>
+      </task>
+      <task name="Frontend: Create Chart Component" ac_ref="1">
+        <subtasks>
+          <subtask>Create a new `SpendingChart.svelte` component in `excelence/frontend/src/lib/components/routes/dashboard/`</subtask>
+          <subtask>Use Chart.js and the `svelty-chartjs` wrapper to render a pie or bar chart</subtask>
+          <subtask>Style the component according to the UX design specification</subtask>
+        </subtasks>
+      </task>
+      <task name="Frontend: Integrate Chart on Dashboard" ac_ref="1, 2">
+        <subtasks>
+          <subtask>In the main dashboard route (`excelence/frontend/src/routes/dashboard/+page.svelte`), fetch data from the `GET /api/v1/dashboard/chart-data` endpoint on page load</subtask>
+          <subtask>Pass the fetched data as props to the `SpendingChart.svelte` component</subtask>
+          <subtask>Ensure the chart data is managed in a Svelte store and refreshes when transactions change</subtask>
+        </subtasks>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="1">**Given** a user is on the dashboard and has recorded expenses, **when** the dashboard loads, **then** a pie or bar chart is displayed, showing the proportion of spending for each category.</criterion>
+    <criterion id="2">**And** hovering over a chart segment displays the category name and total amount.</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/sprint-artifacts/tech-spec-epic-3.md" title="Epic Technical Specification: Dashboard, Visualization & Data Export" section="Detailed Design">
+        <snippet>
+**2. Get Chart Data**
+- **Endpoint:** `GET /api/v1/dashboard/chart-data`
+- **Description:** Returns the total expenses aggregated by category, for use in a chart.
+- **Success Response (200 OK):**
+  - **Body:** `{ "status": "success", "data": [ ...chart_data_contract_array... ] }`
+        </snippet>
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="UX Design Specification: Excelence" section="7.4 Data Display">
+        <snippet>
+*   **Spending Breakdown Chart (Donut Chart):**
+    *   **Purpose:** To visualize expense distribution by category.
+    *   **Content:** A multi-colored donut chart, a central label showing the total, and a legend listing categories with their percentage and absolute values.
+        </snippet>
+      </doc>
+      <doc path="docs/architecture.md" title="Excelence: Decision Architecture Document" section="3.4 Charting Library">
+        <snippet>
+**Decision:** We will use **Chart.js** with the `svelty-chartjs` wrapper.
+**Rationale:** Chart.js is a powerful, popular, and highly customizable library. The `svelty-chartjs` wrapper simplifies its integration into the SvelteKit application.
+        </snippet>
+      </doc>
+    </docs>
+    <code>
+      <item path="excelence/backend/app/api/v1/endpoints/dashboard.py" kind="file" symbol="router" reason="Existing dashboard router where the new endpoint should be added">
+        Existing dashboard endpoints (e.g., summary) are defined here. New `chart-data` endpoint belongs here.
+      </item>
+      <item path="excelence/frontend/src/routes/dashboard/+page.svelte" kind="file" reason="Main dashboard page where the chart component will be mounted">
+        Currently displays Financial Summary. Needs to import and render `SpendingChart` and fetch data.
+      </item>
+      <item path="excelence/frontend/src/lib/components/routes/dashboard/" kind="dir" reason="Target directory for the new SpendingChart component">
+        Existing components: `FinancialSummary.svelte`, `DashboardStatCard.svelte`.
+      </item>
+    </code>
+    <dependencies>
+      <dep ecosystem="frontend">chart.js</dep>
+      <dep ecosystem="frontend">svelty-chartjs</dep>
+      <dep ecosystem="backend">fastapi</dep>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint source="Dev Notes">The backend endpoint must be `GET /api/v1/dashboard/chart-data`.</constraint>
+    <constraint source="Dev Notes">The backend query must be strictly filtered by the `user_id`.</constraint>
+    <constraint source="Dev Notes">Use a Svelte store for chart data to ensure reactivity.</constraint>
+    <constraint source="Dev Notes">The aggregation query must be performed at the database level for efficiency.</constraint>
+    <constraint source="Architecture">Use `svelty-chartjs` wrapper for Chart.js.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface kind="REST API" name="Get Chart Data" signature="GET /api/v1/dashboard/chart-data">
+      Returns: { "status": "success", "data": [ { "category_name": "string", "total_amount": float } ] }
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>Backend tests must validate the business logic (aggregation correctness) and endpoint security (user isolation). Frontend tests should cover component rendering and data prop handling.</standards>
+    <locations>
+      <loc>excelence/backend/app/tests/api/api_v1/test_dashboard.py</loc>
+      <loc>excelence/frontend/src/lib/components/routes/dashboard/SpendingChart.test.ts</loc>
+    </locations>
+    <ideas>
+      <idea ac_ref="1">Backend: Create transactions in different categories and verify the aggregation sums match.</idea>
+      <idea ac_ref="1">Backend: Verify that one user cannot fetch another user's chart data.</idea>
+      <idea ac_ref="1">Frontend: Mock API response and verify Chart receives correct data format.</idea>
+      <idea ac_ref="2">Frontend: Verify tooltips are enabled in Chart configuration.</idea>
+    </ideas>
+  </tests>
+</story-context>
