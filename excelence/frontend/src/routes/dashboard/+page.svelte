@@ -1,17 +1,17 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import TransactionForm from '$lib/components/shared/TransactionForm.svelte';
-	import FinancialSummary from '$lib/components/routes/dashboard/FinancialSummary.svelte';
-	import SpendingChart from '$lib/components/routes/dashboard/SpendingChart.svelte';
+	import { onMount } from "svelte";
+	import TransactionForm from "$lib/components/shared/TransactionForm.svelte";
+	import FinancialSummary from "$lib/components/routes/dashboard/FinancialSummary.svelte";
+	import SpendingChart from "$lib/components/routes/dashboard/SpendingChart.svelte";
 	import {
 		categories,
 		transactions,
 		summary,
 		chartData,
 		loadCategories,
-		loadTransactions
-	} from '$lib/stores/data';
-	import { createTransaction, exportTransactions } from '$lib/services/api';
+		loadTransactions,
+	} from "$lib/stores/data";
+	import { createTransaction, exportTransactions } from "$lib/services/api";
 
 	let showTransactionModal = false;
 
@@ -34,9 +34,9 @@
 		try {
 			const blob = await exportTransactions();
 			const url = window.URL.createObjectURL(blob);
-			const a = document.createElement('a');
+			const a = document.createElement("a");
 			a.href = url;
-			a.download = 'export.csv';
+			a.download = "export.csv";
 			document.body.appendChild(a);
 			a.click();
 			window.URL.revokeObjectURL(url);
@@ -91,14 +91,18 @@
 						<td class="px-4 py-2">{transaction.date}</td>
 						<td class="px-4 py-2">{transaction.description}</td>
 						<td class="px-4 py-2">
-							{$categories.find((c) => c.id === transaction.category_id)?.name || 'N/A'}
+							{$categories.find(
+								(c) => c.id === transaction.category_id,
+							)?.name || "N/A"}
 						</td>
 						<td
 							class="px-4 py-2 text-right"
-							class:text-green-600={transaction.type === 'income'}
-							class:text-red-600={transaction.type === 'expense'}
+							class:text-green-600={transaction.type === "income"}
+							class:text-red-600={transaction.type === "expense"}
 						>
-							{transaction.type === 'income' ? '+' : '-'}${transaction.amount.toFixed(2)}
+							{transaction.type === "income"
+								? "+"
+								: "-"}${transaction.amount.toFixed(2)}
 						</td>
 					</tr>
 				{/each}

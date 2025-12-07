@@ -1,8 +1,12 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import TransactionForm from '$lib/components/shared/TransactionForm.svelte';
-	import { getCategories, createTransaction, getTransactions } from '$lib/services/api';
-	import type { Category, Transaction } from '$lib/types'; // Assuming you have a types file
+	import { onMount } from "svelte";
+	import TransactionForm from "$lib/components/shared/TransactionForm.svelte";
+	import {
+		getCategories,
+		createTransaction,
+		getTransactions,
+	} from "$lib/services/api";
+	import type { Category, Transaction } from "$lib/types"; // Assuming you have a types file
 
 	let showModal = false;
 	let categories: Category[] = [];
@@ -44,13 +48,20 @@
 	</div>
 
 	{#if errorMessage}
-		<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+		<div
+			class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+			role="alert"
+		>
 			<span class="block sm:inline">{errorMessage}</span>
 		</div>
 	{/if}
 
 	{#if showModal}
-		<TransactionForm {categories} onSave={handleSave} onClose={() => (showModal = false)} />
+		<TransactionForm
+			{categories}
+			onSave={handleSave}
+			onClose={() => (showModal = false)}
+		/>
 	{/if}
 
 	<!-- Transaction List Placeholder -->
@@ -61,10 +72,12 @@
 		{:else}
 			<ul>
 				{#each transactions as transaction}
-					<li>{transaction.date}: {transaction.description || 'No description'} - ${transaction.amount}</li>
+					<li>
+						{transaction.date}: {transaction.description ||
+							"No description"} - ${transaction.amount}
+					</li>
 				{/each}
 			</ul>
 		{/if}
 	</div>
-
 </div>
