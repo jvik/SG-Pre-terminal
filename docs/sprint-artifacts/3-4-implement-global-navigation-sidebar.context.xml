@@ -1,0 +1,121 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>3</epicId>
+    <storyId>4</storyId>
+    <title>Implement Global Navigation Sidebar</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-07</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/3-4-implement-global-navigation-sidebar.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>a persistent sidebar on all application pages</iWant>
+    <soThat>I can easily navigate between the Dashboard, Spreadsheet, and Settings</soThat>
+    <tasks>
+- [ ] **Create Sidebar Component** (AC: #1, #2, #3)
+    - [ ] Create `excelence/frontend/src/lib/components/layout/Sidebar.svelte`.
+    - [ ] Implement navigation links using SvelteKit's `$page` store to determine active state.
+    - [ ] Apply Tailwind CSS classes for fixed positioning, width (`w-64`), and styling.
+    - [ ] **Testing**: Create component test `excelence/frontend/src/lib/components/layout/Sidebar.test.ts` to verify links and active class application.
+- [ ] **Implement Responsive Behavior** (AC: #4)
+    - [ ] Add state for sidebar visibility (open/closed) on mobile.
+    - [ ] Create a "Hamburger" toggle button visible only on mobile breakpoints.
+    - [ ] Implement transition/animation for sidebar sliding in/out on mobile.
+    - [ ] **Testing**: Verify toggle functionality and visibility classes at different viewports.
+- [ ] **Integrate into Global Layout** (AC: #1)
+    - [ ] Modify `excelence/frontend/src/routes/+layout.svelte` to include the `<Sidebar />` component.
+    - [ ] Adjust the main content area with a left margin (`ml-64` on desktop) to prevent overlap.
+    - [ ] Ensure the layout is responsive (no margin on mobile).
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+1.  **Given** a logged-in user, **when** they view any page, **then** a fixed sidebar is visible on the left side of the screen.
+2.  **And** it contains links to: Dashboard, Spreadsheet/Transactions, and Settings.
+3.  **And** the current page is visually highlighted in the sidebar.
+4.  **When** viewing on a mobile screen, **then** the sidebar collapses into a hamburger menu.
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>7.1. Global Components</section>
+        <snippet>
+*   **Sidebar Navigation:**
+    *   **Purpose:** Primary navigation for the application.
+    *   **Content:** App logo/name, user profile summary, navigation links (Dashboard, Spreadsheet, Achievements, Settings), Game Mode toggle, Help Center link.
+    *   **States:**
+        *   **Active Link:** `bg-primary/20`, `text-primary`
+        *   **Hover:** `bg-primary/10`
+    *   **Variants:** The sidebar is fixed on desktop views.
+        </snippet>
+      </doc>
+      <doc>
+        <path>docs/ux-design-specification.md</path>
+        <title>UX Design Specification</title>
+        <section>9. Responsive Design</section>
+        <snippet>
+*   **Strategy:** On smaller screens, the sidebar navigation will collapse into a hamburger menu. Multi-column layouts will stack vertically.
+*   **Adaptation Patterns:**
+    *   **Main Content Layout:** The two-column (sidebar + content) layout will become a single column, with the sidebar hidden behind a hamburger menu icon.
+        </snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture Document</title>
+        <section>4. Project Structure</section>
+        <snippet>
+│   ├── src/
+│   │   ├── lib/
+│   │   │   ├── components/ # Svelte components
+│   │   │   │   ├── common/     # Reusable buttons, modals, etc.
+│   │   │   │   └── routes/     # Components specific to a page
+│   │   │   └── stores/     # Svelte stores
+│   │   ├── routes/       # SvelteKit pages and layouts
+│   │   └── app.html
+        </snippet>
+      </doc>
+    </docs>
+    <code>
+      <item>
+        <path>excelence/frontend/src/routes/+layout.svelte</path>
+        <kind>layout</kind>
+        <symbol>default</symbol>
+        <reason>Core layout file where the Sidebar must be integrated.</reason>
+      </item>
+    </code>
+    <dependencies>
+      <pkg name="svelte" version="^5.43.8" />
+      <pkg name="tailwindcss" version="^4.1.17" />
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Use SvelteKit `$page` store (from `$app/stores`) to access `url.pathname` for highlighting the active link.</constraint>
+    <constraint>Use Tailwind CSS utility classes for styling. Desktop: `fixed`, `h-full`, `w-64`, `border-r`. Mobile: `fixed`, `z-50`, `transform`.</constraint>
+    <constraint>Architecture: This story implements the Global Navigation Sidebar as a core layout component. It must be integrated into the root `+layout.svelte`.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>Navigation Links</name>
+      <kind>internal</kind>
+      <signature>Dashboard (/dashboard), Spreadsheet (/spreadsheet), Settings (/settings)</signature>
+      <path>excelence/frontend/src/routes/+layout.svelte</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Use Vitest and @testing-library/svelte. Create component tests for UI logic.</standards>
+    <locations>excelence/frontend/src/lib/components/layout/Sidebar.test.ts</locations>
+    <ideas>
+      - Verify all links are present and point to correct routes.
+      - Verify active class is applied to the link matching current $page.url.
+      - Verify hamburger menu appears on mobile viewport.
+      - Verify sidebar toggles visibility on mobile when hamburger is clicked.
+    </ideas>
+  </tests>
+</story-context>

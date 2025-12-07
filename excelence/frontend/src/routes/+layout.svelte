@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
+	import Sidebar from '$lib/components/layout/Sidebar.svelte';
 
 	let { children } = $props();
 
@@ -28,14 +29,20 @@
 </svelte:head>
 
 {#if $authStore.isAuthenticated}
-	<div class="absolute top-4 right-4">
-		<button
-			onclick={logout}
-			class="px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600"
-		>
-			Logout
-		</button>
-	</div>
+	<Sidebar />
+	<main class="min-h-screen bg-slate-50 p-4 transition-all duration-300 dark:bg-slate-900 md:ml-64">
+		<div class="mb-4 flex justify-end">
+			<button
+				onclick={logout}
+				class="rounded-md bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
+			>
+				Logout
+			</button>
+		</div>
+		{@render children()}
+	</main>
+{:else}
+	<main class="min-h-screen bg-slate-50 dark:bg-slate-900">
+		{@render children()}
+	</main>
 {/if}
-
-{@render children()}
