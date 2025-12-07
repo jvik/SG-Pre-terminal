@@ -18,16 +18,16 @@ describe('TransactionForm', () => {
         category_id: mockCategories[0].id
     };
 
-	it('calls the onSave handler with form data on submit', async () => {
-		const user = userEvent.setup();
-		const onSave = vi.fn();
-		render(TransactionForm, {
-			props: {
-				categories: mockCategories,
-				onSave,
-				onClose: vi.fn()
-			}
-		});
+    it('calls the onSave handler with form data on submit', async () => {
+        const user = userEvent.setup();
+        const onSave = vi.fn();
+        render(TransactionForm, {
+            props: {
+                categories: mockCategories,
+                onSave,
+                onClose: vi.fn()
+            }
+        });
 
         // Fill out the form
         await user.type(screen.getByLabelText('Amount'), '123.45');
@@ -48,16 +48,16 @@ describe('TransactionForm', () => {
         });
     });
 
-	it('calls the onClose handler when cancel is clicked', async () => {
-		const user = userEvent.setup();
-		const onClose = vi.fn();
-		render(TransactionForm, {
-			props: {
-				categories: mockCategories,
-				onSave: vi.fn(),
-				onClose
-			}
-		});
+    it('calls the onClose handler when cancel is clicked', async () => {
+        const user = userEvent.setup();
+        const onClose = vi.fn();
+        render(TransactionForm, {
+            props: {
+                categories: mockCategories,
+                onSave: vi.fn(),
+                onClose
+            }
+        });
 
         await user.click(screen.getByText('Cancel'));
         expect(onClose).toHaveBeenCalled();
@@ -66,11 +66,11 @@ describe('TransactionForm', () => {
     it('pre-fills the form when a transaction prop is provided', () => {
         render(TransactionForm, {
             props: {
-				categories: mockCategories,
-				transaction: mockTransaction,
-				onSave: vi.fn(),
-				onClose: vi.fn()
-			}
+                categories: mockCategories,
+                transaction: mockTransaction,
+                onSave: vi.fn(),
+                onClose: vi.fn()
+            }
         });
 
         expect(screen.getByLabelText('Amount').value).toBe('50');
