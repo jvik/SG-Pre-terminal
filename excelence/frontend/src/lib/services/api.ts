@@ -66,11 +66,11 @@ export const createCategory = (name: string) => {
   return api.post('/api/v1/categories/', { name });
 };
 
-export const updateCategory = (id: number, name: string) => {
+export const updateCategory = (id: string, name: string) => {
   return api.put(`/api/v1/categories/${id}`, { name });
 };
 
-export const deleteCategory = (id: number) => {
+export const deleteCategory = (id: string) => {
   return api.delete(`/api/v1/categories/${id}`);
 };
 

@@ -12,7 +12,7 @@ describe('TransactionForm', () => {
     const mockTransaction = {
         id: 't1',
         amount: 50.00,
-        type: 'expense',
+        type: 'expense' as const,
         date: '2025-12-01',
         description: 'Initial purchase',
         category_id: mockCategories[0].id

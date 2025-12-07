@@ -1,73 +1,50 @@
-# Sprint Change Proposal: Fix Critical UI/UX Gaps
+# Sprint Change Proposal: Quick Category Creation
 
 **Date:** 2025-12-07
-**Author:** Product Manager
+**Author:** Bob (Scrum Master)
 **Status:** Draft
 
 ## 1. Issue Summary
-A review of the current application state revealed several critical gaps between the implemented UI and the UX specifications. Specifically, users cannot initiate registration from the landing page, the main navigation sidebar is missing, and the transaction entry flow lacks key usability features (category creation, working cancel button).
+*   **Trigger:** User identified a usability gap in the "Add Transaction" view (Story 2.2).
+*   **Problem:** Users cannot create a new category directly while adding a transaction. If a category is missing, they must abort the flow, go to settings, create it, and restart.
+*   **Impact:** Friction in the core loop of the application, potentially discouraging transaction logging.
 
 ## 2. Impact Analysis
-*   **Epic 1 (Foundation):** Registration flow is technically functional but visually inaccessible on the landing page.
-*   **Epic 2 (Core Financials):** Transaction entry friction is high due to missing category creation and broken cancel functionality.
-*   **Epic 3 (Dashboard):** Navigation is severely compromised without the sidebar, violating the core layout spec.
+*   **Epics:** Epic 2 (Core Financial Management) is affected.
+*   **Stories:**
+    *   **Story 2.2 (Record Income and Expenses):** Completed, but lacks this feature.
+    *   **New Story 2.5 (Quick Category Creation):** Proposed to address this gap without modifying closed stories.
+*   **Artifacts:**
+    *   **PRD:** Update "User Journey: Adding a New Expense".
+    *   **UX Design:** Update "Core Loop" to include creation step.
 
 ## 3. Recommended Approach
-**Direct Adjustment:** We will modify the existing stories in the backlog to explicitly include these missing UI elements. A new story will be added to Epic 3 to specifically cover the Sidebar implementation, ensuring it is treated as a distinct, verifiable requirement.
+*   **Strategy:** **Direct Adjustment (Add New Story).**
+*   **Rationale:** Adding a specific story for this improvement allows us to keep Story 2.2 closed/stable while iteratively improving the UX. It isolates the risk and makes the change trackable.
 
 ## 4. Detailed Change Proposals
 
-### Artifact: `docs/epics.md`
+### 4.1. New Story: Story 2.5
+**Title:** Quick Category Creation
+**Epic:** Epic 2
+**Goal:** Allow users to create a new category directly from the "Add Transaction" modal.
+**Acceptance Criteria:**
+1.  **Given** the user is opening the category dropdown in the "Add Transaction" modal
+2.  **When** they type a name that doesn't exist OR click a "Create New" button
+3.  **Then** they are presented with a quick input to define the new category (Name + Emoji)
+4.  **And** upon saving, the new category is automatically selected in the transaction form
+5.  **And** the transaction form remains open with previous data preserved.
 
-#### **Change 1: Update Story 1.2 (User Registration)**
-*   **Reason:** Explicitly require the UI trigger for registration.
-*   **Edit:**
-    ```markdown
-    **Acceptance Criteria:**
-    ...
-    **Given** a user is on the landing page
-    **Then** a prominent "Register" or "Sign Up" button is visible.
-    **When** they click the button, they are taken to the registration form.
-    ...
-    ```
+### 4.2. PRD Update
+**Section:** User Journey: Adding a New Expense
+**Change:**
+*   *Old:* "Step 4: ...select a category..."
+*   *New:* "Step 4: ...select a category (or create a new one on the fly)..."
 
-#### **Change 2: Update Story 2.2 (Record Income/Expenses)**
-*   **Reason:** Add category creation to flow and fix cancel button.
-*   **Edit:**
-    ```markdown
-    **Acceptance Criteria:**
-    ...
-    **When** they open the "Add Transaction" form
-    **Then** they see a button or link to "Create New Category" next to the category selector.
-    **And** clicking "Cancel" immediately closes the form/modal without saving data.
-    ...
-    ```
-
-#### **Change 3: Add New Story 3.4 (Global Navigation Sidebar)**
-*   **Reason:** The sidebar is a complex, persistent component that was missed. It warrants its own story to ensure proper implementation.
-*   **Addition:**
-    ```markdown
-    ### Story 3.4: Implement Global Navigation Sidebar
-
-    As a user,
-    I want a persistent sidebar on all application pages,
-    So that I can easily navigate between the Dashboard, Spreadsheet, and Settings.
-
-    **Acceptance Criteria:**
-    **Given** a logged-in user
-    **Then** a fixed sidebar (approx. 256px wide) is visible on the left side of the screen.
-    **And** it contains links to: Dashboard, Spreadsheet/Transactions, and Settings.
-    **And** the current page is visually highlighted in the sidebar.
-    **And** on mobile screens, the sidebar collapses into a hamburger menu.
-    ```
-
-### Artifact: `docs/ux-design-specification.md`
-*   **Status:** No changes needed. The specification already correctly describes these requirements (Sidebar, Layout). The implementation simply failed to match it.
+### 4.3. UX Design Spec Update
+**Section:** 6.2 Core Loop: Transaction Management
+**Change:** Add note about "Quick Create" flow within the modal steps.
 
 ## 5. Implementation Handoff
-*   **Scope:** **Minor/Moderate**. These are standard UI implementations.
-*   **Route To:** Development Team.
-*   **Action:** Update `epics.md` and generate/update implementation plans for the affected stories.
-
----
-**Approval Required:** Do you approve these changes?
+*   **Scope:** **Minor/Moderate** (Frontend logic + API reuse).
+*   **Route To:** Development Team (via standard sprint backlog).

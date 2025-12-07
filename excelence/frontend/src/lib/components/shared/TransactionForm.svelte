@@ -1,5 +1,7 @@
 <script lang="ts">
-	export let categories: { id: number; name: string }[] = [];
+	import { createCategory } from '$lib/services/api';
+	
+	export let categories: { id: string; name: string }[] = [];
 	export let transaction: any = null; // If passed, component is in edit mode
 	export let onSave: (data: any) => void;
 	export let onClose: () => void;
@@ -8,7 +10,9 @@
 	let type: 'income' | 'expense' = 'expense';
 	let date = new Date().toISOString().split('T')[0];
 	let description = '';
-	let category_id: number | null = null;
+	let category_id: string | null = null;
+	let showNewCategoryInput = false;
+	let newCategoryName = '';
 
 	$: {
 		if (transaction) {
@@ -25,6 +29,29 @@
 			description = '';
 			category_id = null;
 		}
+		// Hide new category input when switching transactions
+		showNewCategoryInput = false;
+		newCategoryName = '';
+	}
+
+	async function handleCreateCategory() {
+		if (!newCategoryName.trim()) {
+			alert('Please enter a category name.');
+			return;
+		}
+		
+		try {
+			const newCategory = await createCategory(newCategoryName.trim());
+			// Add the new category to the list
+			categories = [...categories, newCategory];
+			// Select the newly created category
+			category_id = newCategory.id;
+			// Reset and hide the input
+			newCategoryName = '';
+			showNewCategoryInput = false;
+		} catch (error: any) {
+			alert(`Failed to create category: ${error.message}`);
+		}
 	}
 
 	function handleSave() {
@@ -34,7 +61,7 @@
 			return;
 		}
 		const data = {
-			amount: parseFloat(amount),
+			amount: Number(amount),
 			type,
 			date,
 			description,
@@ -83,6 +110,38 @@
 						<option value={category.id}>{category.name}</option>
 					{/each}
 				</select>
+				{#if !showNewCategoryInput}
+					<button 
+						type="button" 
+						on:click={() => showNewCategoryInput = true}
+						class="mt-2 text-sm text-blue-600 hover:text-blue-800"
+					>
+						+ Create New Category
+					</button>
+				{:else}
+					<div class="mt-2 flex gap-2">
+						<input
+							type="text"
+							bind:value={newCategoryName}
+							placeholder="New category name"
+							class="flex-1 p-2 border rounded text-sm"
+						/>
+						<button
+							type="button"
+							on:click={handleCreateCategory}
+							class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-3 rounded text-sm"
+						>
+							Add
+						</button>
+						<button
+							type="button"
+							on:click={() => { showNewCategoryInput = false; newCategoryName = ''; }}
+							class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-3 rounded text-sm"
+						>
+							Cancel
+						</button>
+					</div>
+				{/if}
 			</div>
 			<div class="mb-4">
 				<label for="description" class="block text-sm font-medium text-gray-700">Description</label>

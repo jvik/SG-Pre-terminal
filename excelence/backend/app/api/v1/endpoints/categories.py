@@ -16,7 +16,7 @@ class CategoryUpdate(BaseModel):
     name: str
 
 class Category(BaseModel):
-    id: int
+    id: uuid.UUID
     name: str
     user_id: uuid.UUID
 
@@ -60,7 +60,7 @@ def read_categories(user: models.User = Depends(deps.get_current_user)):
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.put("/{category_id}", response_model=Category)
-def update_category(category_id: int, category: CategoryUpdate, user: models.User = Depends(deps.get_current_user)):
+def update_category(category_id: uuid.UUID, category: CategoryUpdate, user: models.User = Depends(deps.get_current_user)):
     """
     Update a category for the current user.
     """
@@ -69,7 +69,7 @@ def update_category(category_id: int, category: CategoryUpdate, user: models.Use
         # RLS in Supabase should enforce ownership, but we double-check here.
         response = supabase.table('categories').update({
             "name": category.name
-        }).eq('id', category_id).eq('user_id', str(user_id)).execute()
+        }).eq('id', str(category_id)).eq('user_id', str(user_id)).execute()
 
         if not response.data:
             raise HTTPException(status_code=404, detail="Category not found or user does not have permission.")
@@ -82,7 +82,7 @@ def update_category(category_id: int, category: CategoryUpdate, user: models.Use
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.delete("/{category_id}", response_model=dict)
-def delete_category(category_id: int, user: models.User = Depends(deps.get_current_user)):
+def delete_category(category_id: uuid.UUID, user: models.User = Depends(deps.get_current_user)):
     """
     Delete a category for the current user.
     Blocks deletion if the category is in use by any transactions.
@@ -92,7 +92,7 @@ def delete_category(category_id: int, user: models.User = Depends(deps.get_curre
 
         # Deletion Blocking Logic (Subtask 1.5)
         # Check if any transactions are using this category
-        transaction_check = supabase.table('transactions').select('id', count='exact').eq('category_id', category_id).eq('user_id', str(user_id)).execute()
+        transaction_check = supabase.table('transactions').select('id', count='exact').eq('category_id', str(category_id)).eq('user_id', str(user_id)).execute()
         
         if transaction_check.count > 0:
             raise HTTPException(
@@ -101,7 +101,7 @@ def delete_category(category_id: int, user: models.User = Depends(deps.get_curre
             )
 
         # Proceed with deletion
-        response = supabase.table('categories').delete().eq('id', category_id).eq('user_id', str(user_id)).execute()
+        response = supabase.table('categories').delete().eq('id', str(category_id)).eq('user_id', str(user_id)).execute()
 
         if not response.data:
             raise HTTPException(status_code=404, detail="Category not found or user does not have permission.")
