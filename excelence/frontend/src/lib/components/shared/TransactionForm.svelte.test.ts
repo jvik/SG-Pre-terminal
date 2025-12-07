@@ -73,11 +73,11 @@ describe('TransactionForm', () => {
             }
         });
 
-        expect(screen.getByLabelText('Amount').value).toBe('50');
-        expect(screen.getByLabelText('Type').value).toBe('expense');
-        expect(screen.getByLabelText('Date').value).toBe('2025-12-01');
-        expect(screen.getByLabelText('Category').value).toBe(mockTransaction.category_id);
-        expect(screen.getByLabelText('Description').value).toBe('Initial purchase');
+        expect((screen.getByLabelText('Amount') as HTMLInputElement).value).toBe('50');
+        expect((screen.getByLabelText('Type') as HTMLSelectElement).value).toBe('expense');
+        expect((screen.getByLabelText('Date') as HTMLInputElement).value).toBe('2025-12-01');
+        expect((screen.getByLabelText('Category') as HTMLSelectElement).value).toBe(mockTransaction.category_id);
+        expect((screen.getByLabelText('Description') as HTMLInputElement).value).toBe('Initial purchase');
         expect(screen.getByText('Edit Transaction')).toBeInTheDocument();
     });
 });

@@ -50,7 +50,7 @@
 	{/if}
 
 	{#if showModal}
-		<TransactionForm {categories} on:save={handleSave} on:close={() => (showModal = false)} />
+		<TransactionForm {categories} onSave={handleSave} onClose={() => (showModal = false)} />
 	{/if}
 
 	<!-- Transaction List Placeholder -->

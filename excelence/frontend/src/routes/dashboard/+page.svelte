@@ -110,7 +110,7 @@
 {#if showTransactionModal}
 	<TransactionForm
 		categories={$categories}
-		on:close={() => (showTransactionModal = false)}
-		on:save={handleSaveTransaction}
+		onClose={() => (showTransactionModal = false)}
+		onSave={handleSaveTransaction}
 	/>
 {/if}
