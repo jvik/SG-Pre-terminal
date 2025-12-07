@@ -4,31 +4,7 @@ from unittest.mock import MagicMock, PropertyMock
 import uuid
 from datetime import date
 
-# Mock user object that the get_current_user dependency would return
-USER_ID = uuid.uuid4()
-
-# Mock Supabase user object structure
-class MockSupabaseUser:
-    id = USER_ID
-
-class MockUserResponse:
-    user = MockSupabaseUser()
-
-@pytest.fixture
-def mock_supabase_auth(mocker):
-    """Mocks the supabase auth get_user call in the new dependency location."""
-    return mocker.patch(
-        "app.api.deps.supabase.auth.get_user",
-        return_value=MockUserResponse()
-    )
-
-@pytest.fixture
-def mock_supabase_db(mocker):
-    """Mocks the supabase table calls."""
-    return mocker.patch("app.api.v1.endpoints.transactions.supabase.table")
-
-
-def test_create_transaction(client: TestClient, mock_supabase_auth, mock_supabase_db):
+def test_create_transaction(authenticated_client: TestClient, mock_supabase_db, USER_ID):
     mock_execute = MagicMock()
     today = date.today()
     category_id = uuid.uuid4()
@@ -45,7 +21,7 @@ def test_create_transaction(client: TestClient, mock_supabase_auth, mock_supabas
     }])
     mock_supabase_db.return_value.insert.return_value.execute.return_value = mock_execute
 
-    response = client.post(
+    response = authenticated_client.post(
         "/api/v1/transactions/",
         json={
             "amount": 50.0,
@@ -54,7 +30,6 @@ def test_create_transaction(client: TestClient, mock_supabase_auth, mock_supabas
             "description": "Groceries",
             "category_id": str(category_id)
         },
-        headers={"Authorization": "Bearer fake-token"}
     )
     
     assert response.status_code == 200

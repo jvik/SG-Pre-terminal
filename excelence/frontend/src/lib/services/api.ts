@@ -91,6 +91,10 @@ export const deleteTransaction = (id) => {
   return api.delete(`/api/v1/transactions/${id}`);
 };
 
+export const getSummary = () => {
+  return api.get('/api/v1/dashboard/summary');
+};
+
 // --- Auth Specific Functions ---
 export const registerUser = (email: string, password: string) => {
   return api.post('/api/v1/auth/signup', { email, password });

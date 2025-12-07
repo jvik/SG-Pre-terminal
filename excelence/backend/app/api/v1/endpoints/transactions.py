@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel, Field
 from app.db.session import supabase
 from app.api import deps
-from app.crud import transactions as crud_transactions
+from app import crud, models
 import uuid
 from datetime import date
 
@@ -35,14 +35,14 @@ class TransactionUpdate(BaseModel):
 
 # --- API Endpoints ---
 @router.get("/", response_model=List[Transaction])
-def list_transactions(user: dict = Depends(deps.get_current_user)):
+def list_transactions(user: models.User = Depends(deps.get_current_user)):
     """
     Retrieve all transactions for the current user.
     """
     try:
-        user_id = user.user.id
+        user_id = user.id
         response = supabase.table('transactions').select('*').match({
-            'user_id': user_id
+            'user_id': str(user_id)
         }).order('date', desc=True).execute()
 
         if not response.data:
@@ -53,20 +53,20 @@ def list_transactions(user: dict = Depends(deps.get_current_user)):
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.put("/{transaction_id}", response_model=Transaction)
-def update_transaction(transaction_id: uuid.UUID, transaction: TransactionUpdate, user: dict = Depends(deps.get_current_user)):
+def update_transaction(transaction_id: uuid.UUID, transaction: TransactionUpdate, user: models.User = Depends(deps.get_current_user)):
     """
     Update a transaction for the current user.
     """
     try:
-        user_id = user.user.id
+        user_id = user.id
         update_data = transaction.dict(exclude_unset=True)
 
         if not update_data:
             raise HTTPException(status_code=400, detail="No update data provided.")
 
         response = supabase.table('transactions').update(update_data).match({
-            'id': transaction_id,
-            'user_id': user_id
+            'id': str(transaction_id),
+            'user_id': str(user_id)
         }).execute()
 
         if not response.data:
@@ -78,19 +78,19 @@ def update_transaction(transaction_id: uuid.UUID, transaction: TransactionUpdate
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.post("/", response_model=Transaction)
-def create_transaction(transaction: TransactionCreate, user: dict = Depends(deps.get_current_user)):
+def create_transaction(transaction: TransactionCreate, user: models.User = Depends(deps.get_current_user)):
     """
     Create a new transaction for the current user.
     """
     try:
-        user_id = user.user.id
+        user_id = user.id
         response = supabase.table('transactions').insert({
             "amount": transaction.amount,
             "type": transaction.type,
             "date": str(transaction.date),
             "description": transaction.description,
-            "category_id": transaction.category_id,
-            "user_id": user_id
+            "category_id": str(transaction.category_id),
+            "user_id": str(user_id)
         }).execute()
 
         if not response.data:
@@ -102,13 +102,13 @@ def create_transaction(transaction: TransactionCreate, user: dict = Depends(deps
         raise HTTPException(status_code=400, detail=str(e))
 
 @router.delete("/{transaction_id}", response_model=dict)
-def delete_transaction(transaction_id: uuid.UUID, user: dict = Depends(deps.get_current_user)):
+def delete_transaction(transaction_id: uuid.UUID, user: models.User = Depends(deps.get_current_user)):
     """
     Delete a transaction for the current user.
     """
     try:
-        user_id = user.user.id
-        success = crud_transactions.delete_transaction(transaction_id, user_id)
+        user_id = user.id
+        success = crud.delete_transaction(transaction_id, user_id)
 
         if not success:
             raise HTTPException(status_code=404, detail="Transaction not found or user does not have permission.")

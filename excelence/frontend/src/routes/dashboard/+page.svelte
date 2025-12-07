@@ -1,20 +1,27 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import TransactionForm from '$lib/components/shared/TransactionForm.svelte';
-	import { categories, transactions, loadCategories, loadTransactions } from '$lib/stores/data';
+	import FinancialSummary from '$lib/components/routes/dashboard/FinancialSummary.svelte';
+	import {
+		categories,
+		transactions,
+		summary,
+		loadCategories,
+		loadTransactions
+	} from '$lib/stores/data';
 	import { createTransaction } from '$lib/services/api';
 
 	let showTransactionModal = false;
 
 	onMount(async () => {
 		await loadCategories();
-		await loadTransactions();
+		await loadTransactions(); // This will also trigger loadSummary()
 	});
 
 	async function handleSaveTransaction(event) {
 		try {
 			await createTransaction(event.detail);
-			await loadTransactions(); // Refresh the list
+			await loadTransactions(); // Refreshes both transactions and summary
 			showTransactionModal = false;
 		} catch (error) {
 			alert(`Error creating transaction: ${error.message}`);
@@ -33,6 +40,10 @@
 		</button>
 	</div>
 
+	<div class="mb-6">
+		<FinancialSummary {...$summary} />
+	</div>
+
 	<div class="bg-white shadow-md rounded">
 		<table class="min-w-full table-auto">
 			<thead class="bg-gray-200">
@@ -49,9 +60,13 @@
 						<td class="px-4 py-2">{transaction.date}</td>
 						<td class="px-4 py-2">{transaction.description}</td>
 						<td class="px-4 py-2">
-							{$categories.find(c => c.id === transaction.category_id)?.name || 'N/A'}
+							{$categories.find((c) => c.id === transaction.category_id)?.name || 'N/A'}
 						</td>
-						<td class="px-4 py-2 text-right" class:text-green-600={transaction.type === 'income'} class:text-red-600={transaction.type === 'expense'}>
+						<td
+							class="px-4 py-2 text-right"
+							class:text-green-600={transaction.type === 'income'}
+							class:text-red-600={transaction.type === 'expense'}
+						>
 							{transaction.type === 'income' ? '+' : '-'}${transaction.amount.toFixed(2)}
 						</td>
 					</tr>
