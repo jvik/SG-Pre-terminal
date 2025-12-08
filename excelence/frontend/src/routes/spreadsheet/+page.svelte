@@ -123,40 +123,66 @@
 <div class="p-8 bg-gray-50 min-h-screen">
     <div class="max-w-7xl mx-auto">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">Transaction Spreadsheet</h1>
+            <h1 class="text-3xl font-bold text-gray-800">
+                Transaction Spreadsheet
+            </h1>
             <button
                 on:click={startAddingNew}
                 disabled={isAddingNew}
                 class="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg font-semibold shadow-md transition-colors flex items-center gap-2"
             >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 4v16m8-8H4"
+                    />
                 </svg>
                 Add Transaction
             </button>
         </div>
 
-        <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
+        <div
+            class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200"
+        >
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead>
                         <tr class="bg-gradient-to-r from-gray-50 to-gray-100">
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200">
+                            <th
+                                class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200 w-36"
+                            >
                                 Date
                             </th>
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200">
+                            <th
+                                class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200 w-64"
+                            >
                                 Description
                             </th>
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200">
+                            <th
+                                class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200 w-48"
+                            >
                                 Category
                             </th>
-                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200">
+                            <th
+                                class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200 w-32"
+                            >
                                 Type
                             </th>
-                            <th class="px-6 py-4 text-right text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200">
+                            <th
+                                class="px-6 py-4 text-right text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200 w-36"
+                            >
                                 Amount
                             </th>
-                            <th class="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider">
+                            <th
+                                class="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider w-48"
+                            >
                                 Actions
                             </th>
                         </tr>
@@ -165,62 +191,64 @@
                         <!-- New Transaction Row -->
                         {#if isAddingNew}
                             <tr class="bg-blue-50 border-l-4 border-l-blue-500">
-                                <td class="px-6 py-3 border-r border-gray-200">
+                                <td class="px-4 py-3 border-r border-gray-200 w-36">
                                     <input
                                         type="date"
                                         bind:value={newTransaction.date}
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     />
                                 </td>
-                                <td class="px-6 py-3 border-r border-gray-200">
+                                <td class="px-4 py-3 border-r border-gray-200 w-64">
                                     <input
                                         type="text"
                                         bind:value={newTransaction.description}
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                        placeholder="Enter description..."
+                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        placeholder="Description..."
                                     />
                                 </td>
-                                <td class="px-6 py-3 border-r border-gray-200">
+                                <td class="px-4 py-3 border-r border-gray-200 w-48">
                                     <select
                                         bind:value={newTransaction.category_id}
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 truncate"
                                     >
                                         {#each $categories as category}
                                             <option value={category.id}>
-                                                {category.emoji ? `${category.emoji} ` : ""}{category.name}
+                                                {category.emoji
+                                                    ? `${category.emoji} `
+                                                    : ""}{category.name}
                                             </option>
                                         {/each}
                                     </select>
                                 </td>
-                                <td class="px-6 py-3 border-r border-gray-200">
+                                <td class="px-4 py-3 border-r border-gray-200 w-32">
                                     <select
                                         bind:value={newTransaction.type}
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     >
                                         <option value="income">Income</option>
                                         <option value="expense">Expense</option>
                                     </select>
                                 </td>
-                                <td class="px-6 py-3 border-r border-gray-200">
+                                <td class="px-4 py-3 border-r border-gray-200 w-36">
                                     <input
                                         type="number"
                                         step="0.01"
                                         bind:value={newTransaction.amount}
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-right focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm text-right focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         placeholder="0.00"
                                     />
                                 </td>
-                                <td class="px-6 py-3">
-                                    <div class="flex gap-2 justify-center">
+                                <td class="px-4 py-3 w-48">
+                                    <div class="flex gap-1.5 justify-center">
                                         <button
                                             on:click={saveNewTransaction}
-                                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-semibold shadow-sm transition-colors"
+                                            class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-sm transition-colors whitespace-nowrap"
                                         >
                                             Save
                                         </button>
                                         <button
                                             on:click={cancelAddingNew}
-                                            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-semibold shadow-sm transition-colors"
+                                            class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-sm transition-colors whitespace-nowrap"
                                         >
                                             Cancel
                                         </button>
@@ -232,62 +260,67 @@
                         <!-- Existing Transactions -->
                         {#each $transactions as transaction, index (transaction.id)}
                             {#if editingId === transaction.id && editForm}
-                                <tr class="bg-amber-50 border-l-4 border-l-amber-500">
-                                    <td class="px-6 py-3 border-r border-gray-200">
+                                <tr
+                                    class="bg-amber-50 border-l-4 border-l-amber-500"
+                                >
+                                    <td class="px-4 py-3 border-r border-gray-200 w-36">
                                         <input
                                             type="date"
                                             bind:value={editForm.date}
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
                                         />
                                     </td>
-                                    <td class="px-6 py-3 border-r border-gray-200">
+                                    <td class="px-4 py-3 border-r border-gray-200 w-64">
                                         <input
                                             type="text"
                                             bind:value={editForm.description}
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
                                             placeholder="Description"
                                         />
                                     </td>
-                                    <td class="px-6 py-3 border-r border-gray-200">
+                                    <td class="px-4 py-3 border-r border-gray-200 w-48">
                                         <select
                                             bind:value={editForm.category_id}
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 truncate"
                                         >
                                             {#each $categories as category}
                                                 <option value={category.id}>
-                                                    {category.emoji ? `${category.emoji} ` : ""}{category.name}
+                                                    {category.emoji
+                                                        ? `${category.emoji} `
+                                                        : ""}{category.name}
                                                 </option>
                                             {/each}
                                         </select>
                                     </td>
-                                    <td class="px-6 py-3 border-r border-gray-200">
+                                    <td class="px-4 py-3 border-r border-gray-200 w-32">
                                         <select
                                             bind:value={editForm.type}
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
                                         >
                                             <option value="income">Income</option>
                                             <option value="expense">Expense</option>
                                         </select>
                                     </td>
-                                    <td class="px-6 py-3 border-r border-gray-200">
+                                    <td class="px-4 py-3 border-r border-gray-200 w-36">
                                         <input
                                             type="number"
                                             step="0.01"
                                             bind:value={editForm.amount}
-                                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-right focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm text-right focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
                                         />
                                     </td>
-                                    <td class="px-6 py-3">
-                                        <div class="flex gap-2 justify-center">
+                                    <td class="px-4 py-3 w-48">
+                                        <div class="flex gap-1.5 justify-center">
                                             <button
-                                                on:click={() => saveEdit(transaction.id)}
-                                                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-semibold shadow-sm transition-colors"
+                                                on:click={() =>
+                                                    saveEdit(transaction.id)}
+                                                class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-sm transition-colors whitespace-nowrap"
                                             >
                                                 Save
                                             </button>
                                             <button
                                                 on:click={cancelEditing}
-                                                class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-semibold shadow-sm transition-colors"
+                                                class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-sm transition-colors whitespace-nowrap"
                                             >
                                                 Cancel
                                             </button>
@@ -301,47 +334,87 @@
                                     class:bg-gray-50={index % 2 === 1}
                                     on:click={() => startEditing(transaction)}
                                 >
-                                    <td class="px-6 py-4 border-r border-gray-200 whitespace-nowrap text-sm text-gray-700 font-medium">
-                                        {new Date(transaction.date).toLocaleDateString("no-NO", {
+                                    <td
+                                        class="px-6 py-4 border-r border-gray-200 whitespace-nowrap text-sm text-gray-700 font-medium"
+                                    >
+                                        {new Date(
+                                            transaction.date,
+                                        ).toLocaleDateString("no-NO", {
                                             year: "numeric",
                                             month: "short",
                                             day: "numeric",
                                         })}
                                     </td>
-                                    <td class="px-6 py-4 border-r border-gray-200 text-sm text-gray-900">
+                                    <td
+                                        class="px-6 py-4 border-r border-gray-200 text-sm text-gray-900"
+                                    >
                                         {transaction.description || "—"}
                                     </td>
-                                    <td class="px-6 py-4 border-r border-gray-200 whitespace-nowrap text-sm">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    <td
+                                        class="px-6 py-4 border-r border-gray-200 whitespace-nowrap text-sm"
+                                    >
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
+                                        >
                                             {#each $categories as category}
                                                 {#if category.id === transaction.category_id}
-                                                    {category.emoji ? `${category.emoji} ` : ""}{category.name}
+                                                    {category.emoji
+                                                        ? `${category.emoji} `
+                                                        : ""}{category.name}
                                                 {/if}
                                             {/each}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 border-r border-gray-200 whitespace-nowrap text-sm">
+                                    <td
+                                        class="px-6 py-4 border-r border-gray-200 whitespace-nowrap text-sm"
+                                    >
                                         <span
                                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                                            class:bg-green-100={transaction.type === "income"}
-                                            class:text-green-800={transaction.type === "income"}
-                                            class:bg-red-100={transaction.type === "expense"}
-                                            class:text-red-800={transaction.type === "expense"}
+                                            class:bg-green-100={transaction.type ===
+                                                "income"}
+                                            class:text-green-800={transaction.type ===
+                                                "income"}
+                                            class:bg-red-100={transaction.type ===
+                                                "expense"}
+                                            class:text-red-800={transaction.type ===
+                                                "expense"}
                                         >
-                                            {transaction.type === "income" ? "Income" : "Expense"}
+                                            {transaction.type === "income"
+                                                ? "Income"
+                                                : "Expense"}
                                         </span>
                                     </td>
                                     <td
                                         class="px-6 py-4 border-r border-gray-200 whitespace-nowrap text-sm text-right font-semibold"
-                                        class:text-green-600={transaction.type === "income"}
-                                        class:text-red-600={transaction.type === "expense"}
+                                        class:text-green-600={transaction.type ===
+                                            "income"}
+                                        class:text-red-600={transaction.type ===
+                                            "expense"}
                                     >
-                                        {transaction.type === "income" ? "+" : "-"}{transaction.amount.toFixed(2)} kr
+                                        {transaction.type === "income"
+                                            ? "+"
+                                            : "-"}{transaction.amount.toFixed(
+                                            2,
+                                        )} kr
                                     </td>
-                                    <td class="px-6 py-4 text-center text-gray-400 text-xs">
-                                        <div class="flex items-center justify-center gap-1">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    <td
+                                        class="px-6 py-4 text-center text-gray-400 text-xs"
+                                    >
+                                        <div
+                                            class="flex items-center justify-center gap-1"
+                                        >
+                                            <svg
+                                                class="w-4 h-4"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                                />
                                             </svg>
                                             Click to edit
                                         </div>
@@ -353,13 +426,33 @@
                         <!-- Empty state -->
                         {#if $transactions.length === 0 && !isAddingNew}
                             <tr>
-                                <td colspan="6" class="px-6 py-12 text-center text-gray-500">
-                                    <div class="flex flex-col items-center gap-2">
-                                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                <td
+                                    colspan="6"
+                                    class="px-6 py-12 text-center text-gray-500"
+                                >
+                                    <div
+                                        class="flex flex-col items-center gap-2"
+                                    >
+                                        <svg
+                                            class="w-12 h-12 text-gray-400"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                            />
                                         </svg>
-                                        <p class="text-lg font-medium">No transactions yet</p>
-                                        <p class="text-sm">Click "Add Transaction" to get started</p>
+                                        <p class="text-lg font-medium">
+                                            No transactions yet
+                                        </p>
+                                        <p class="text-sm">
+                                            Click "Add Transaction" to get
+                                            started
+                                        </p>
                                     </div>
                                 </td>
                             </tr>
@@ -371,19 +464,43 @@
 
         <!-- Summary footer -->
         {#if $transactions.length > 0}
-            <div class="mt-6 bg-gradient-to-r from-white to-gray-50 shadow-lg rounded-lg border border-gray-200 overflow-hidden">
-                <div class="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+            <div
+                class="mt-6 bg-gradient-to-r from-white to-gray-50 shadow-lg rounded-lg border border-gray-200 overflow-hidden"
+            >
+                <div
+                    class="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200"
+                >
                     <!-- Total Transactions -->
                     <div class="p-6 flex flex-col items-center justify-center">
-                        <div class="text-gray-500 text-sm font-medium mb-2 uppercase tracking-wider">Transactions</div>
-                        <div class="text-3xl font-bold text-gray-800">{$transactions.length}</div>
+                        <div
+                            class="text-gray-500 text-sm font-medium mb-2 uppercase tracking-wider"
+                        >
+                            Transactions
+                        </div>
+                        <div class="text-3xl font-bold text-gray-800">
+                            {$transactions.length}
+                        </div>
                     </div>
-                    
+
                     <!-- Total Income -->
-                    <div class="p-6 flex flex-col items-center justify-center bg-green-50">
-                        <div class="text-green-700 text-sm font-medium mb-2 uppercase tracking-wider flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    <div
+                        class="p-6 flex flex-col items-center justify-center bg-green-50"
+                    >
+                        <div
+                            class="text-green-700 text-sm font-medium mb-2 uppercase tracking-wider flex items-center gap-2"
+                        >
+                            <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                                />
                             </svg>
                             Income
                         </div>
@@ -393,14 +510,30 @@
                                 .reduce((sum, t) => sum + t.amount, 0)
                                 .toFixed(2)}
                         </div>
-                        <div class="text-sm text-green-600 font-medium mt-1">kr</div>
+                        <div class="text-sm text-green-600 font-medium mt-1">
+                            kr
+                        </div>
                     </div>
-                    
+
                     <!-- Total Expenses -->
-                    <div class="p-6 flex flex-col items-center justify-center bg-red-50">
-                        <div class="text-red-700 text-sm font-medium mb-2 uppercase tracking-wider flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+                    <div
+                        class="p-6 flex flex-col items-center justify-center bg-red-50"
+                    >
+                        <div
+                            class="text-red-700 text-sm font-medium mb-2 uppercase tracking-wider flex items-center gap-2"
+                        >
+                            <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
+                                />
                             </svg>
                             Expenses
                         </div>
@@ -410,27 +543,46 @@
                                 .reduce((sum, t) => sum + t.amount, 0)
                                 .toFixed(2)}
                         </div>
-                        <div class="text-sm text-red-600 font-medium mt-1">kr</div>
+                        <div class="text-sm text-red-600 font-medium mt-1">
+                            kr
+                        </div>
                     </div>
-                    
+
                     <!-- Net Balance -->
-                    <div class="p-6 flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50">
-                        <div class="text-blue-700 text-sm font-medium mb-2 uppercase tracking-wider flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    <div
+                        class="p-6 flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50"
+                    >
+                        <div
+                            class="text-blue-700 text-sm font-medium mb-2 uppercase tracking-wider flex items-center gap-2"
+                        >
+                            <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                                />
                             </svg>
                             Net Balance
                         </div>
                         <div class="text-3xl font-bold text-blue-700">
-                            {($transactions
-                                .filter((t) => t.type === "income")
-                                .reduce((sum, t) => sum + t.amount, 0) -
+                            {(
+                                $transactions
+                                    .filter((t) => t.type === "income")
+                                    .reduce((sum, t) => sum + t.amount, 0) -
                                 $transactions
                                     .filter((t) => t.type === "expense")
-                                    .reduce((sum, t) => sum + t.amount, 0))
-                                .toFixed(2)}
+                                    .reduce((sum, t) => sum + t.amount, 0)
+                            ).toFixed(2)}
                         </div>
-                        <div class="text-sm text-blue-700 font-medium mt-1">kr</div>
+                        <div class="text-sm text-blue-700 font-medium mt-1">
+                            kr
+                        </div>
                     </div>
                 </div>
             </div>
