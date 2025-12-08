@@ -1,15 +1,16 @@
 import { writable } from 'svelte/store';
 import { getCategories, getTransactions, getSummary, getChartData } from '$lib/services/api';
+import type { Category, Transaction } from '$lib/types';
 
 // --- Stores ---
-export const categories = writable([]);
-export const transactions = writable([]);
+export const categories = writable<Category[]>([]);
+export const transactions = writable<Transaction[]>([]);
 export const summary = writable({
 	total_income: 0,
 	total_expenses: 0,
 	net_balance: 0
 });
-export const chartData = writable([]);
+export const chartData = writable<{ category_name: string; total_amount: number }[]>([]);
 
 // --- Loading Functions ---
 export const loadCategories = async () => {

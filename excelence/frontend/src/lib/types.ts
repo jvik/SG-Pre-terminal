@@ -1,6 +1,7 @@
 export interface Category {
   id: string; // Assuming UUIDs are strings
   name: string;
+  emoji?: string;
 }
 
 export interface Transaction {

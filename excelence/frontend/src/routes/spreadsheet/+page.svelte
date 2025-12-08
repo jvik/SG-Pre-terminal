@@ -27,6 +27,29 @@
         type: "expense" as "income" | "expense",
     };
 
+    // Filter states
+    let selectedMonth = "";
+    let selectedCategory = "";
+    let selectedType = "";
+
+    // Computed filtered transactions
+    $: filteredTransactions = $transactions.filter((t) => {
+        if (selectedMonth && t.date.substring(0, 7) !== selectedMonth)
+            return false;
+        if (selectedCategory && t.category_id !== selectedCategory)
+            return false;
+        if (selectedType && t.type !== selectedType) return false;
+        return true;
+    });
+
+    // Get available months from transactions
+    $: availableMonths = (() => {
+        const months = new Set(
+            $transactions.map((t) => t.date.substring(0, 7))
+        );
+        return Array.from(months).sort().reverse();
+    })();
+
     onMount(async () => {
         await loadCategories();
         await loadTransactions();
@@ -68,15 +91,13 @@
             await updateTransaction(transactionId, updatePayload);
             await loadTransactions();
             editingId = null;
-            editForm = null;
-        } catch (error) {
-            console.error("Full error:", error);
-            const errorMsg = error?.message || JSON.stringify(error);
-            alert(`Error updating transaction: ${errorMsg}`);
-        }
-    }
-
-    function startAddingNew() {
+			editForm = null;
+		} catch (error) {
+			console.error("Full error:", error);
+			const errorMsg = (error as any)?.message || JSON.stringify(error);
+			alert(`Error updating transaction: ${errorMsg}`);
+		}
+	}    function startAddingNew() {
         isAddingNew = true;
         editingId = null;
         editForm = null;
@@ -114,7 +135,7 @@
             isAddingNew = false;
         } catch (error) {
             console.error("Full error:", error);
-            const errorMsg = error?.message || JSON.stringify(error);
+            const errorMsg = (error as any)?.message || JSON.stringify(error);
             alert(`Error creating transaction: ${errorMsg}`);
         }
     }
@@ -146,6 +167,92 @@
                 </svg>
                 Add Transaction
             </button>
+        </div>
+
+        <!-- Filters -->
+        <div
+            class="bg-white dark:bg-slate-800 shadow-md rounded-lg p-4 mb-4 border border-gray-200 dark:border-slate-700"
+        >
+            <div class="flex flex-wrap gap-4 items-center">
+                <div class="flex items-center gap-2">
+                    <label
+                        for="month-filter"
+                        class="text-sm font-medium text-gray-700 dark:text-slate-300 whitespace-nowrap"
+                    >
+                        Month:
+                    </label>
+                    <select
+                        id="month-filter"
+                        bind:value={selectedMonth}
+                        class="px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-slate-700 text-gray-900 dark:text-white text-sm"
+                    >
+                        <option value="">All Time</option>
+                        {#each availableMonths as month}
+                            <option value={month}>
+                                {new Date(month + "-01").toLocaleDateString(
+                                    "en-US",
+                                    {
+                                        year: "numeric",
+                                        month: "long",
+                                    }
+                                )}
+                            </option>
+                        {/each}
+                    </select>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <label
+                        for="category-filter"
+                        class="text-sm font-medium text-gray-700 dark:text-slate-300 whitespace-nowrap"
+                    >
+                        Category:
+                    </label>
+                    <select
+                        id="category-filter"
+                        bind:value={selectedCategory}
+                        class="px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-slate-700 text-gray-900 dark:text-white text-sm"
+                    >
+                        <option value="">All Categories</option>
+                        {#each $categories as category}
+                            <option value={category.id}>
+                                {category.emoji ? `${category.emoji} ` : ""}{category.name}
+                            </option>
+                        {/each}
+                    </select>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <label
+                        for="type-filter"
+                        class="text-sm font-medium text-gray-700 dark:text-slate-300 whitespace-nowrap"
+                    >
+                        Type:
+                    </label>
+                    <select
+                        id="type-filter"
+                        bind:value={selectedType}
+                        class="px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-slate-700 text-gray-900 dark:text-white text-sm"
+                    >
+                        <option value="">All Types</option>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </div>
+
+                {#if selectedMonth || selectedCategory || selectedType}
+                    <button
+                        on:click={() => {
+                            selectedMonth = "";
+                            selectedCategory = "";
+                            selectedType = "";
+                        }}
+                        class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium underline"
+                    >
+                        Clear Filters
+                    </button>
+                {/if}
+            </div>
         </div>
 
         <div
@@ -276,7 +383,7 @@
                         {/if}
 
                         <!-- Existing Transactions -->
-                        {#each $transactions as transaction, index (transaction.id)}
+                        {#each filteredTransactions as transaction, index (transaction.id)}
                             {#if editingId === transaction.id && editForm}
                                 <tr
                                     class="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-l-amber-500 dark:border-l-amber-400"
@@ -454,7 +561,7 @@
                         {/each}
 
                         <!-- Empty state -->
-                        {#if $transactions.length === 0 && !isAddingNew}
+                        {#if filteredTransactions.length === 0 && !isAddingNew && $transactions.length === 0}
                             <tr>
                                 <td
                                     colspan="6"
@@ -487,6 +594,39 @@
                                 </td>
                             </tr>
                         {/if}
+                        <!-- No results for filters -->
+                        {#if filteredTransactions.length === 0 && !isAddingNew && $transactions.length > 0}
+                            <tr>
+                                <td
+                                    colspan="6"
+                                    class="px-6 py-12 text-center text-gray-500 dark:text-slate-400"
+                                >
+                                    <div
+                                        class="flex flex-col items-center gap-2"
+                                    >
+                                        <svg
+                                            class="w-12 h-12 text-gray-400 dark:text-slate-500"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                            />
+                                        </svg>
+                                        <p class="text-lg font-medium">
+                                            No transactions match your filters
+                                        </p>
+                                        <p class="text-sm">
+                                            Try adjusting your filter settings
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                        {/if}
                     </tbody>
                 </table>
             </div>
@@ -510,8 +650,15 @@
                         <div
                             class="text-3xl font-bold text-gray-800 dark:text-white"
                         >
-                            {$transactions.length}
+                            {filteredTransactions.length}
                         </div>
+                        {#if filteredTransactions.length !== $transactions.length}
+                            <div
+                                class="text-xs text-gray-500 dark:text-slate-400 mt-1"
+                            >
+                                of {$transactions.length} total
+                            </div>
+                        {/if}
                     </div>
 
                     <!-- Total Income -->
@@ -539,7 +686,7 @@
                         <div
                             class="text-3xl font-bold text-green-600 dark:text-green-400"
                         >
-                            +{$transactions
+                            +{filteredTransactions
                                 .filter((t) => t.type === "income")
                                 .reduce((sum, t) => sum + t.amount, 0)
                                 .toFixed(2)}
@@ -574,7 +721,7 @@
                         <div
                             class="text-3xl font-bold text-red-600 dark:text-red-400"
                         >
-                            -{$transactions
+                            -{filteredTransactions
                                 .filter((t) => t.type === "expense")
                                 .reduce((sum, t) => sum + t.amount, 0)
                                 .toFixed(2)}
@@ -612,10 +759,10 @@
                             class="text-3xl font-bold text-blue-700 dark:text-blue-400"
                         >
                             {(
-                                $transactions
+                                filteredTransactions
                                     .filter((t) => t.type === "income")
                                     .reduce((sum, t) => sum + t.amount, 0) -
-                                $transactions
+                                filteredTransactions
                                     .filter((t) => t.type === "expense")
                                     .reduce((sum, t) => sum + t.amount, 0)
                             ).toFixed(2)}
