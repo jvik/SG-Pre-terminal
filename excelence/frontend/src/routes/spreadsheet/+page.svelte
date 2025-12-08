@@ -6,7 +6,11 @@
         loadCategories,
         loadTransactions,
     } from "$lib/stores/data";
-    import { updateTransaction, createTransaction, deleteTransaction } from "$lib/services/api";
+    import {
+        updateTransaction,
+        createTransaction,
+        deleteTransaction,
+    } from "$lib/services/api";
     import type { Transaction } from "$lib/types";
 
     let editingId: string | null = null;
@@ -143,7 +147,7 @@
 
     async function handleDelete(transactionId: string, event: MouseEvent) {
         event.stopPropagation(); // Prevent row click from triggering edit
-        
+
         if (!confirm("Are you sure you want to delete this transaction?")) {
             return;
         }
@@ -486,7 +490,11 @@
                                                 Cancel
                                             </button>
                                             <button
-                                                on:click={(e) => handleDelete(transaction.id, e)}
+                                                on:click={(e) =>
+                                                    handleDelete(
+                                                        transaction.id,
+                                                        e,
+                                                    )}
                                                 class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-md text-xs font-semibold shadow-sm transition-colors whitespace-nowrap"
                                             >
                                                 Delete
