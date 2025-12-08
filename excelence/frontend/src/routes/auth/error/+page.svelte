@@ -32,8 +32,10 @@
     }
 
     function isExpiredVerification(): boolean {
-        return errorCode === "otp_expired" || 
-               (error === "access_denied" && errorDescription?.includes("expired"));
+        return (
+            errorCode === "otp_expired" ||
+            (error === "access_denied" && errorDescription?.includes("expired"))
+        );
     }
 
     async function handleResendVerification() {
@@ -93,7 +95,9 @@
 
         {#if isExpiredVerification() && !resendSuccess}
             <div class="resend-section">
-                <p class="resend-prompt">Enter your email to receive a new verification link:</p>
+                <p class="resend-prompt">
+                    Enter your email to receive a new verification link:
+                </p>
                 <input
                     type="email"
                     bind:value={email}
@@ -136,11 +140,19 @@
         align-items: center;
         min-height: 100vh;
         padding: 1rem;
-        background: linear-gradient(to bottom right, rgb(241 245 249), rgb(226 232 240));
+        background: linear-gradient(
+            to bottom right,
+            rgb(241 245 249),
+            rgb(226 232 240)
+        );
     }
 
     :global(.dark) .error-container {
-        background: linear-gradient(to bottom right, rgb(15 23 42), rgb(30 41 59));
+        background: linear-gradient(
+            to bottom right,
+            rgb(15 23 42),
+            rgb(30 41 59)
+        );
     }
 
     .error-card {
