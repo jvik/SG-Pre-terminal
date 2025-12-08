@@ -1,5 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import { onMount } from "svelte";
+  import { page } from "$app/stores";
   import { authStore } from "$lib/stores/auth";
 
   let email = "";
@@ -8,11 +10,30 @@
   let isLoading = false;
   let showSlowApiWarning = false;
   let timeoutId: ReturnType<typeof setTimeout>;
+  let showResendVerification = false;
+  let resendSuccess = false;
+  let resendError: string | null = null;
+  let isResending = false;
+  let showResendConfirm = false;
+  let showVerifiedMessage = false;
+
+  onMount(() => {
+    // Check if redirected after email verification
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("verified") === "true") {
+      showVerifiedMessage = true;
+      // Clear the URL parameter
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  });
 
   async function handleSubmit() {
     error = null;
     isLoading = true;
     showSlowApiWarning = false;
+    showResendVerification = false;
+    showResendConfirm = false;
+    resendSuccess = false;
 
     // Show warning after 3 seconds if still loading
     timeoutId = setTimeout(() => {
@@ -27,11 +48,50 @@
       goto("/dashboard");
     } catch (err) {
       clearTimeout(timeoutId);
-      error = (err as Error).message;
+      const errorMessage = (err as Error).message;
+      error = errorMessage;
+      
+      // Check if error is related to email verification
+      if (errorMessage.toLowerCase().includes('email') && 
+          (errorMessage.toLowerCase().includes('not') || 
+           errorMessage.toLowerCase().includes('confirm') ||
+           errorMessage.toLowerCase().includes('verif'))) {
+        showResendVerification = true;
+      }
     } finally {
       isLoading = false;
       showSlowApiWarning = false;
     }
+  }
+
+  async function handleResendVerification() {
+    resendError = null;
+    resendSuccess = false;
+    isResending = true;
+
+    try {
+      await authStore.resendVerification(email);
+      resendSuccess = true;
+      showResendVerification = false;
+      showResendConfirm = false;
+    } catch (err) {
+      const errorMessage = (err as Error).message;
+      resendError = errorMessage;
+      // Keep the confirmation dialog open so user can see the error
+      // but re-enable the button
+    } finally {
+      isResending = false;
+    }
+  }
+
+  function promptResendVerification() {
+    resendError = null;
+    showResendConfirm = true;
+  }
+
+  function cancelResend() {
+    showResendConfirm = false;
+    resendError = null;
   }
 </script>
 
@@ -45,6 +105,26 @@
       </h1>
     </a>
     <form on:submit|preventDefault={handleSubmit} class="space-y-6">
+      {#if showVerifiedMessage}
+        <div
+          class="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-lg"
+        >
+          <svg
+            class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <p class="text-sm text-green-800 flex-1">
+            Email verified successfully! You can now log in to your account.
+          </p>
+        </div>
+      {/if}
       <div>
         <label for="email" class="block text-sm font-medium text-gray-700"
           >Email</label
@@ -84,7 +164,86 @@
               clip-rule="evenodd"
             />
           </svg>
-          <p class="text-sm text-amber-800 flex-1">{error}</p>
+          <div class="flex-1">
+            <p class="text-sm text-amber-800">{error}</p>
+            {#if showResendVerification && !showResendConfirm}
+              <button
+                type="button"
+                on:click={promptResendVerification}
+                class="mt-2 text-sm font-medium text-blue-600 hover:text-blue-700 underline"
+              >
+                Resend Verification Email
+              </button>
+            {/if}
+            {#if showResendConfirm}
+              <div class="mt-3 p-3 bg-white rounded border border-amber-300">
+                <p class="text-sm text-gray-700 mb-3">
+                  Send a new verification email to <span class="font-medium">{email}</span>?
+                </p>
+                {#if resendError}
+                  <div class="mb-3 p-2 bg-red-50 border border-red-200 rounded">
+                    <p class="text-xs text-red-700">{resendError}</p>
+                  </div>
+                {/if}
+                <div class="flex gap-2">
+                  <button
+                    type="button"
+                    on:click={handleResendVerification}
+                    disabled={isResending}
+                    class="px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isResending ? "Sending..." : "Yes, Send Email"}
+                  </button>
+                  <button
+                    type="button"
+                    on:click={cancelResend}
+                    disabled={isResending}
+                    class="px-3 py-1.5 text-sm font-medium text-gray-700 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            {/if}
+          </div>
+        </div>
+      {/if}
+      {#if resendSuccess}
+        <div
+          class="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-lg"
+        >
+          <svg
+            class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <p class="text-sm text-green-800 flex-1">
+            Verification email sent! Please check your inbox and click the verification link.
+          </p>
+        </div>
+      {/if}
+      {#if resendError}
+        <div
+          class="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-lg"
+        >
+          <svg
+            class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <p class="text-sm text-red-800 flex-1">{resendError}</p>
         </div>
       {/if}
       {#if showSlowApiWarning}

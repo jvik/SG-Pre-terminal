@@ -27,6 +27,9 @@ const createAuthStore = () => {
         set({ isAuthenticated: true, token: response.access_token });
       }
     },
+    resendVerification: async (email: string) => {
+      await api.post('/api/v1/auth/resend-verification', { email });
+    },
     logout: () => {
       if (browser) {
         localStorage.removeItem('jwt_token');

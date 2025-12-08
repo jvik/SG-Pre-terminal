@@ -19,9 +19,19 @@ def signup(user: UserCreate):
             "email": user.email,
             "password": user.password,
         })
+        
+        # Supabase returns user without session when email confirmation is required
+        # This is normal behavior for new users, not a duplicate
         return res
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        error_msg = str(e)
+        # Check for common duplicate user error messages from Supabase
+        if "already registered" in error_msg.lower() or "already exists" in error_msg.lower() or "user already registered" in error_msg.lower():
+            raise HTTPException(
+                status_code=400,
+                detail="A user with this email already exists. Please log in or use a different email."
+            )
+        raise HTTPException(status_code=400, detail=error_msg)
 
 @router.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
@@ -41,3 +51,20 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     except Exception as e:
         raise HTTPException(status_code=401, detail=str(e))
+
+class ResendVerification(BaseModel):
+    email: str
+
+@router.post("/resend-verification")
+def resend_verification(data: ResendVerification):
+    """
+    Resend verification email to the user.
+    """
+    try:
+        res = supabase.auth.resend({
+            "type": "signup",
+            "email": data.email,
+        })
+        return {"message": "Verification email sent successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
