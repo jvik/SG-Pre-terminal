@@ -1,16 +1,16 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import { authStore } from '$lib/stores/auth';
+  import { goto } from "$app/navigation";
+  import { authStore } from "$lib/stores/auth";
 
-  let email = '';
-  let password = '';
+  let email = "";
+  let password = "";
   let error: string | null = null;
 
   async function handleSubmit() {
     error = null;
     try {
       await authStore.login(email, password);
-      goto('/dashboard');
+      goto("/dashboard");
     } catch (err) {
       error = (err as Error).message;
     }
@@ -22,7 +22,9 @@
     <h1 class="text-2xl font-bold text-center">Login</h1>
     <form on:submit|preventDefault={handleSubmit} class="space-y-6">
       <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <label for="email" class="block text-sm font-medium text-gray-700"
+          >Email</label
+        >
         <input
           type="email"
           id="email"
@@ -32,7 +34,9 @@
         />
       </div>
       <div>
-        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <label for="password" class="block text-sm font-medium text-gray-700"
+          >Password</label
+        >
         <input
           type="password"
           id="password"
@@ -53,5 +57,16 @@
         </button>
       </div>
     </form>
+    <div class="pt-4 text-center border-t">
+      <p class="text-sm text-gray-600">
+        Don't have an account?
+        <a
+          href="/register"
+          class="font-medium text-blue-600 hover:text-blue-500"
+        >
+          Register here
+        </a>
+      </p>
+    </div>
   </div>
 </div>
