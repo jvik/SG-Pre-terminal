@@ -14,6 +14,25 @@
 			const hashParams = new URLSearchParams(
 				window.location.hash.substring(1),
 			);
+
+			// Check for errors first
+			const error = hashParams.get("error");
+			const errorCode = hashParams.get("error_code");
+			const errorDescription = hashParams.get("error_description");
+
+			if (error) {
+				// Redirect to error page with error details as query params
+				const errorParams = new URLSearchParams();
+				errorParams.set("error", error);
+				if (errorCode) errorParams.set("error_code", errorCode);
+				if (errorDescription)
+					errorParams.set("error_description", errorDescription);
+
+				goto(`/auth/error?${errorParams.toString()}`);
+				return;
+			}
+
+			// Check for successful verification
 			const accessToken = hashParams.get("access_token");
 			const type = hashParams.get("type");
 
