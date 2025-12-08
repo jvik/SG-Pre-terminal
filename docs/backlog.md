@@ -1,0 +1,2 @@
+Date,Story,Epic,Type,Severity,Owner,Status,Notes
+2025-12-06,2.1,2,Bug,High,TBD,Open,"Create and implement component tests for the category management page [file: excelence/frontend/src/routes/settings/categories/+page.test.ts]"

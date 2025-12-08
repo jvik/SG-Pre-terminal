@@ -1,0 +1,9 @@
+# DO NOT USE THIS FILE FOR DEPENDENCIES.
+#
+# This project uses pyproject.toml to manage Python dependencies.
+# All package management MUST be done using the 'uv' tool.
+#
+# To add a dependency, run:
+# uv pip install <package-name>
+#
+# This file exists only to prevent accidental use of 'pip install -r requirements.txt'.

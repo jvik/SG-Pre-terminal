@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<context>
+  <story>
+    <as_a>a user</as_a>
+    <i_want>to see a real-time summary of my total income, expenses, and net balance on the dashboard</i_want>
+    <so_that>I can quickly understand my current financial standing</so_that>
+  </story>
+  <acceptance_criteria>
+    <criterion id="1">**Given** a user is logged in and on the dashboard, **when** they view the page, **then** the dashboard displays the calculated total income, total expenses, and the net balance for all their transactions.</criterion>
+    <criterion id="2">**And** these totals automatically update whenever a transaction is added, edited, or deleted.</criterion>
+  </acceptance_criteria>
+  <story_tasks>
+    <task for_ac="1">**Backend: Create Financial Summary Endpoint**</task>
+    <task for_ac="1">**Frontend: Create Financial Summary Component**</task>
+    <task for_ac="1 2">**Frontend: Integrate Summary Data on Dashboard**</task>
+  </story_tasks>
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Story 3.1: Display Financial Summary</section>
+        <snippet>As a user, I want to see a real-time summary of my total income, expenses, and net balance on the dashboard, so that I can quickly understand my current financial standing.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Excelence: Decision Architecture Document</title>
+        <section>API Design &amp; Communication</section>
+        <snippet>The API will adhere to a standardized JSON response format (JSend-style).</snippet>
+      </doc>
+      <doc>
+        <path>docs/sprint-artifacts/tech-spec-epic-3.md</path>
+        <title>Epic Technical Specification: Dashboard, Visualization &amp; Data Export</title>
+        <section>APIs and Interfaces</section>
+        <snippet>GET /api/v1/dashboard/summary - Returns the user's total income, expenses, and net balance.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>excelence/backend/app/api/v1/endpoints/transactions.py</path>
+        <kind>endpoint</kind>
+        <symbol>router</symbol>
+        <reason>Provides existing CRUD operations for transactions, which will be the source of data for the summary.</reason>
+      </artifact>
+      <artifact>
+        <path>excelence/backend/app/crud/transactions.py</path>
+        <kind>crud</kind>
+        <symbol>create_transaction, get_transaction, etc.</symbol>
+        <reason>Contains the business logic for transaction management that will need to be extended for summary calculations.</reason>
+      </artifact>
+      <artifact>
+        <path>excelence/frontend/src/routes/dashboard/+page.svelte</path>
+        <kind>route</kind>
+        <symbol>Dashboard</symbol>
+        <reason>The main page where the new financial summary component will be displayed.</reason>
+      </artifact>
+      <artifact>
+        <path>excelence/frontend/src/lib/services/api.ts</path>
+        <kind>service</kind>
+        <symbol>api</symbol>
+        <reason>The frontend API service that will be extended to fetch the summary data.</reason>
+      </artifact>
+      <artifact>
+        <path>excelence/frontend/src/lib/stores/data.ts</path>
+        <kind>store</kind>
+        <symbol>transactions</symbol>
+        <reason>The Svelte store that holds transaction data and will be used to make the summary component reactive.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <dependency>
+        <path>excelence/frontend/package.json</path>
+        <ecosystem>node</ecosystem>
+        <package>svelte</package>
+      </dependency>
+      <dependency>
+        <path>excelence/backend/requirements.txt</path>
+        <ecosystem>python</ecosystem>
+        <package>fastapi</package>
+      </dependency>
+    </dependencies>
+  </artifacts>
+  <interfaces>
+    <interface>
+      <name>Get Financial Summary</name>
+      <kind>REST endpoint</kind>
+      <signature>GET /api/v1/dashboard/summary</signature>
+      <path>docs/sprint-artifacts/tech-spec-epic-3.md</path>
+    </interface>
+  </interfaces>
+  <constraints>
+    <constraint>The backend query must be strictly filtered by the user_id of the authenticated user to ensure data isolation.</constraint>
+    <constraint>The frontend should use Svelte's built-in stores to manage the summary data, ensuring reactivity across components.</constraint>
+    <constraint>The aggregation query should be optimized. Ensure the user_id column on the transactions table is indexed.</constraint>
+  </constraints>
+  <tests>
+    <standards>Backend tests are written with pytest. Frontend tests use Vitest and Svelte Testing Library. All new endpoints and components must have corresponding tests.</standards>
+    <locations>
+      <location>excelence/backend/tests</location>
+      <location>excelence/frontend/src/**/__tests__</location>
+      <location>excelence/frontend/src/**/*.test.ts</location>
+    </locations>
+    <ideas>
+      <idea for_ac="1">Create a backend test that adds several transactions for a user and then calls the new summary endpoint to verify the totals are correct.</idea>
+      <idea for_ac="1">Create a frontend test that mounts the dashboard and mocks the API call to the summary endpoint, ensuring the component correctly displays the data.</idea>
+      <idea for_ac="2">In the frontend test, simulate adding a new transaction and verify that the summary component updates to reflect the new totals without a full page reload.</idea>
+    </ideas>
+  </tests>
+</context>

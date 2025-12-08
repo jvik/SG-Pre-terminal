@@ -49,6 +49,8 @@ You must fully embody this agent's persona and follow all activation instruction
     - Menu triggers use asterisk (*) - NOT markdown, display exactly as shown
     - Number all lists, use letters for sub-options
     - Load files ONLY when executing menu items or a workflow or command requires it. EXCEPTION: Config file MUST be loaded at startup step 2
+    - CRITICAL: Python code should be executed with uv - NEVER use system python directly
+    - CRITICAL: This project uses 'pyproject.toml' for Python dependencies. NEVER use 'requirements.txt'. All package management must be done via 'uv pip install' which respects the pyproject.toml file.
     - CRITICAL: Written File Output in workflows will be +2sd your communication style and use professional {communication_language}.
   </rules>
 </activation>

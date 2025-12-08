@@ -29,23 +29,23 @@
 
 ## Fase 2
 
-- [ ] Solutioning
-  - [ ] /run-agent-task architect *create-architecture {prompt / user-input-file}
-    - [ ] File: architecture.md
-  - [ ] /run-agent-task pm *create-epics-and-stories {prompt / user-input-file}
-    - [ ] File: epics.md
+- [x] Solutioning
+  - [x] /run-agent-task architect *create-architecture {prompt / user-input-file}
+    - [x] File: architecture.md
+  - [x] /run-agent-task pm *create-epics-and-stories {prompt / user-input-file}
+    - [x] File: epics.md
   - [ ] /run-agent-task tea *test-design {prompt / user-input-file}
   - [ ] /run-agent-task architect *solutioning-gate-check {prompt / user-input-file}
 
 ## Fase 3
 
 - [ ] Implementation
-  - [ ] /run-agent-task sm *sprint-planning {prompt / user-input-file}
-    - [ ] File: sprint-artifacts/sprint-status.yaml
+  - [x] /run-agent-task sm *sprint-planning {prompt / user-input-file}
+    - [x] File: sprint-artifacts/sprint-status.yaml
   - foreach epic in sprint planning:
-    - [ ] /run-agent-task sm create-epic-tech-context {prompt / user-input-file}
-      - [ ] File: sprint-artifacts/tech-spec-epic-{{epic_id}}.md
-    - [ ] /run-agent-task sm validate-epic-tech-context {prompt / user-input-file}
+    - [x] /run-agent-task sm create-epic-tech-context {prompt / user-input-file}
+      - [x] File: sprint-artifacts/tech-spec-epic-{{epic_id}}.md
+    - [x] /run-agent-task sm validate-epic-tech-context {prompt / user-input-file}
     - foreach story in epic:
       - [ ] /run-agent-task sm *create-story {prompt / user-input-file}
         - [ ] File: sprint-artifacts/{{story_key}}.md

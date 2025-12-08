@@ -1,0 +1,138 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>epic-2</epicId>
+    <storyId>story-2-4</storyId>
+    <title>Delete Transactions</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-06</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/2-4-delete-transactions.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>user</asA>
+    <iWant>to be able to delete a transaction</iWant>
+    <soThat>I can remove accidental or incorrect entries</soThat>
+    <tasks>
+-   [ ] **Backend: Create API Endpoint for Deleting Transactions** (AC: #1)
+    -   [ ] Implement `DELETE /api/v1/transactions/{transaction_id}` endpoint in `backend/app/api/v1/endpoints/transactions.py`.
+    -   [ ] Add business logic to `backend/app/crud/transactions.py` to delete a transaction by its ID.
+    -   [ ] Ensure the endpoint is protected and requires user authentication.
+    -   [ ] Ensure the query is scoped to the authenticated `user_id` to prevent unauthorized access.
+-   [ ] **Frontend: Add Delete Functionality to Transaction List** (AC: #1, #2)
+    -   [ ] Add a "Delete" button to each row in the `TransactionList.svelte` component.
+    -   [ ] Clicking the "Delete" button should trigger a confirmation modal to prevent accidental deletion.
+    -   [ ] On confirmation, the component should send a `DELETE` request to `/api/v1/transactions/{transaction_id}`.
+    -   [ ] After a successful deletion, the transaction list in the store should be refreshed.
+-   [ ] **Frontend: Create Confirmation Modal** (AC: #1)
+    -   [ ] Create a reusable `ConfirmationModal.svelte` component.
+    -   [ ] The modal should display a confirmation message and provide "Confirm" and "Cancel" buttons.
+</tasks>
+  </story>
+
+  <acceptanceCriteria>
+1.  **Given** a user is viewing their transaction history, **when** they select an option to delete a specific transaction and confirm the action, **then** the transaction is permanently removed from the database.
+2.  **And** the transaction list and dashboard summary update to reflect the removal.
+</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Excelence Product Requirements Document (PRD)</title>
+        <section>Requirements</section>
+        <snippet>FR003: The system must allow users to create, read, update, and delete income and expense entries.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Excelence: Decision Architecture Document</title>
+        <section>Implementation Patterns</section>
+        <snippet>API Naming: Endpoints: Use plural nouns and kebab-case (e.g., /api/v1/user-achievements). Route Parameters: Use {parameter_id}.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Excelence: Decision Architecture Document</title>
+        <section>Architectural Decisions</section>
+        <snippet>API Design & Communication: The API will adhere to a standardized JSON response format (JSend-style).</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Excelence: Decision Architecture Document</title>
+        <section>Project Structure and Boundaries</section>
+        <snippet>Frontend shared components path: frontend/src/lib/components/shared/</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>excelence/backend/app/api/v1/endpoints/transactions.py</path>
+        <kind>controller</kind>
+        <symbol>router</symbol>
+        <reason>Existing transaction endpoints. New DELETE endpoint will be added here.</reason>
+      </artifact>
+      <artifact>
+        <path>excelence/backend/app/crud/transactions.py</path>
+        <kind>service</kind>
+        <reason>Business logic for transaction operations. Deletion logic likely belongs here if separated from endpoint.</reason>
+      </artifact>
+      <artifact>
+        <path>excelence/frontend/src/lib/components/routes/dashboard/TransactionList.svelte</path>
+        <kind>component</kind>
+        <reason>Component displaying transactions. Needs "Delete" button and logic.</reason>
+      </artifact>
+      <artifact>
+        <path>excelence/frontend/src/lib/services/api.ts</path>
+        <kind>service</kind>
+        <symbol>api</symbol>
+        <reason>Shared API service. Needs `deleteTransaction` method.</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <dependency>
+        <ecosystem>python</ecosystem>
+        <package>fastapi</package>
+        <version>any</version>
+      </dependency>
+      <dependency>
+        <ecosystem>python</ecosystem>
+        <package>supabase</package>
+        <version>any</version>
+      </dependency>
+      <dependency>
+        <ecosystem>node</ecosystem>
+        <package>svelte</package>
+        <version>^5.0.0</version>
+      </dependency>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>API endpoints must be scoped to the authenticated user.</constraint>
+    <constraint>Frontend tests for new components are mandatory.</constraint>
+    <constraint>Use Svelte stores for state management.</constraint>
+    <constraint>Follow JSend-style JSON response format.</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>DELETE Transaction API</name>
+      <kind>REST Endpoint</kind>
+      <signature>DELETE /api/v1/transactions/{transaction_id}</signature>
+      <path>backend/app/api/v1/endpoints/transactions.py</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>Frontend components must have corresponding .test.ts files using Vitest and Testing Library. Backend endpoints should be tested using pytest.</standards>
+    <locations>
+      <location>excelence/frontend/src/lib/components/shared/</location>
+      <location>excelence/frontend/src/lib/components/routes/dashboard/</location>
+      <location>excelence/backend/tests/api/v1/</location>
+    </locations>
+    <ideas>
+      <idea>Test that the confirmation modal appears when delete is clicked.</idea>
+      <idea>Test that the API DELETE request is sent upon confirmation.</idea>
+      <idea>Test that the transaction is removed from the list after successful deletion.</idea>
+      <idea>Test that the API returns 404 if transaction not found or belongs to another user.</idea>
+    </ideas>
+  </tests>
+</story-context>

@@ -50,7 +50,7 @@ Excelence aims to address the common challenge of budgeting for individuals and 
 1.  **Login:** The user navigates to the application and logs in with their credentials.
 2.  **Dashboard View:** The user is presented with their main dashboard, showing a summary of their current financial status, including a graph.
 3.  **Initiate Action:** The user clicks on an "Add Expense" button or drags an expense icon to a designated area.
-4.  **Enter Details:** A form or modal appears, prompting the user to enter the expense amount, select a category, add an optional description, and confirm the date.
+4.  **Enter Details:** A form or modal appears, prompting the user to enter the expense amount, select a category (or create a new one on the fly), add an optional description, and confirm the date.
 5.  **Confirm and Save:** The user submits the form.
 6.  **Visual Feedback:** The system provides immediate visual feedback, such as an animation, confirming the expense has been added.
 7.  **Dashboard Update:** The dashboard automatically updates to reflect the new expense. The graph and financial summary figures are refreshed in real-time.

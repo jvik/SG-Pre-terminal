@@ -1,0 +1,77 @@
+<story-context id="{bmad_folder}/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1</storyId>
+    <title>Initialize Project Structure</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-30</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-1-initialize-project-structure.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a developer</asA>
+    <iWant>to initialize the codebase using the full-stack starter template</iWant>
+    <soThat>we have a consistent and pre-configured foundation for development</soThat>
+    <tasks>
+- [ ] Task 1: Execute the `cookiecutter` command to scaffold the project. (AC: 2)
+- [ ] Task 2: Verify the creation of `frontend` and `backend` directories. (AC: 3)
+- [ ] Task 3: Run `npm install` in the `frontend` directory and `pip install -r requirements.txt` in the `backend` directory to confirm dependencies are installable. (AC: 4)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+1.  **Given** the project's approved tech stack (FastAPI, SvelteKit)
+2.  **When** the `cookiecutter` command is executed with the specified template
+3.  **Then** the project directory is created with separate `frontend` and `backend` folders
+4.  **And** all initial dependencies for both frontend and backend are installed and ready.
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Excelence Product Requirements Document (PRD)</title>
+        <section>Goals and Background Context</section>
+        <snippet>Excelence aims to address the common challenge of budgeting for individuals and small organizations who lack expertise in traditional spreadsheet software like Excel.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Excelence: Decision Architecture Document</title>
+        <section>2. Project Initialization</section>
+        <snippet>The first implementation story for this project is to initialize the codebase using the chosen starter template. `cookiecutter https://github.com/tiangolo/full-stack-fastapi-postgresql`</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>ibe160 - Epic Breakdown</title>
+        <section>Story 1.1: Initialize Project Structure</section>
+        <snippet>As a developer, I want to initialize the codebase using the full-stack starter template, So that we have a consistent and pre-configured foundation for development.</snippet>
+      </doc>
+    </docs>
+    <code></code>
+    <dependencies>
+      <python>
+        <file>.logging/requirements.txt</file>
+        <packages>
+          <package>ijson>=3.2.3</package>
+          <package>filelock>=3.12.0</package>
+          <package>watchfiles>=0.21</package>
+        </packages>
+      </python>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Backend: A global exception handler in FastAPI will catch all errors and return the standard JSON error response.</constraint>
+    <constraint>Frontend: The API service module will have a central wrapper to handle API responses, distinguishing between success and error statuses.</constraint>
+  </constraints>
+  <interfaces></interfaces>
+  <tests>
+    <standards>Testing frameworks were skipped as per user request. However, the architecture specifies that all dates and times will be stored in the database in UTC format and all dates sent via the API will be in ISO 8601 string format. This should be manually tested.</standards>
+    <locations></locations>
+    <ideas>
+      <idea for="AC:3">After running cookiecutter, manually check for the existence of `frontend` and `backend` directories.</idea>
+      <idea for="AC:4">Run `npm install` and `pip install` in the respective directories and check for errors.</idea>
+    </ideas>
+  </tests>
+</story-context>

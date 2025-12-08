@@ -1,0 +1,111 @@
+<story-context id="{bmad_folder}/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>2</storyId>
+    <title>Implement User Registration</title>
+    <status>drafted</status>
+    <generatedAt>2025-12-02</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/1-2-implement-user-registration.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a new user</asA>
+    <iWant>to register for an account using my email and a password</iWant>
+    <soThat>I can access the application and manage my finances securely.</soThat>
+    <tasks>
+      <task id="1" description="Create `POST /api/v1/users` endpoint in the backend." ac_refs="3, 5">
+        <subtask id="1.1" description="Create Pydantic schemas for user registration request and response."/>
+        <subtask id="1.2" description="Implement password hashing."/>
+        <subtask id="1.3" description="Create user record in the database."/>
+        <subtask id="1.4" description="Add unit tests for the registration endpoint."/>
+      </task>
+      <task id="2" description="Create a registration form in the frontend." ac_refs="1, 2">
+        <subtask id="2.1" description="Implement the registration form UI."/>
+        <subtask id="2.2" description="Implement form validation."/>
+        <subtask id="2.3" description="Call the backend API on form submission."/>
+        <subtask id="2.4" description="Add component tests for the registration form."/>
+      </task>
+      <task id="3" description="Implement post-registration flow." ac_refs="4, 5">
+        <subtask id="3.1" description="Store JWT token in the frontend."/>
+        <subtask id="3.2" description="Redirect user to the dashboard."/>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+      <criterion id="1" description="Given a user is on the registration page"/>
+      <criterion id="2" description="When they enter a valid email and a strong password and submit the form"/>
+      <criterion id="3" description="Then a new user record is created in the `users` database table"/>
+      <criterion id="4" description="And the user is automatically logged in and redirected to the main dashboard."/>
+      <criterion id="5" description="And the API returns a JWT token upon successful registration."/>
+    </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/PRD.md" title="Excelence Product Requirements Document (PRD)" section="Functional Requirements">
+        <snippet>FR001: Users must be able to register for a new account.</snippet>
+      </doc>
+      <doc path="docs/architecture.md" title="Excelence: Decision Architecture Document" section="API Design &amp; Communication">
+        <snippet>The API will adhere to a standardized JSON response format (JSend-style). Success: { "status": "success", "data": { ... } }, Error: { "status": "error", "message": "Error description" }</snippet>
+      </doc>
+      <doc path="docs/architecture.md" title="Excelence: Decision Architecture Document" section="Project Structure and Boundaries">
+        <snippet>backend/app/api/v1/endpoints/auth.py, backend/app/models/, backend/app/schemas/, frontend/src/routes</snippet>
+      </doc>
+      <doc path="docs/ux-design-specification.md" title="UX Design Specification: Excelence" section="Onboarding (New User Registration &amp; Login)">
+        <snippet>User lands on the Login/Registration page. User selects the "Sign Up" tab. User fills in their email, a password, and confirms the password. User clicks "Create My Account". Upon successful registration, the user is automatically logged in and redirected to the Main Dashboard.</snippet>
+      </doc>
+      <doc path="docs/epics.md" title="ibe160 - Epic Breakdown" section="Story 1.2: Implement User Registration">
+        <snippet>As a new user, I want to register for an account using my email and a password, so that I can access the application and manage my finances securely. Acceptance Criteria: Given a user is on the registration page When they enter a valid email and a strong password and submit the form Then a new user record is created in the `users` database table And the user is automatically logged in and redirected to the main dashboard. And the API returns a JWT token upon successful registration.</snippet>
+      </doc>
+      <doc path="docs/sprint-artifacts/tech-spec-epic-1.md" title="Epic Technical Specification: Project Foundation &amp; User Authentication" section="Data Models and Contracts">
+        <snippet>`users` Table Schema: `id` (UUID), `email` (VARCHAR), `hashed_password` (VARCHAR), `is_active` (BOOLEAN), `created_at` (TIMESTAMPZ)</snippet>
+      </doc>
+      <doc path="docs/sprint-artifacts/tech-spec-epic-1.md" title="Epic Technical Specification: Project Foundation &amp; User Authentication" section="APIs and Interfaces">
+        <snippet>POST /api/v1/users - Creates a new user account. Request Body: { "email": "user@example.com", "password": "a_strong_password" }</snippet>
+      </doc>
+    </docs>
+    <code></code>
+    <dependencies>
+      <ecosystem name="Node">
+        <package name="@sveltejs/kit" version="^2.48.5"/>
+        <package name="svelte" version="^5.43.8"/>
+        <package name="vite" version="^7.2.2"/>
+        <package name="tailwindcss" version="^4.1.17"/>
+        <package name="eslint" version="^9.39.1"/>
+        <package name="prettier" version="^3.6.2"/>
+        <package name="typescript" version="^5.9.3"/>
+      </ecosystem>
+      <ecosystem name="Python">
+        <package name="fastapi" version="==0.123.0"/>
+        <package name="uvicorn" version="==0.38.0"/>
+        <package name="pydantic" version="==2.12.5"/>
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+      <constraint type="API Naming">Use plural nouns and kebab-case (e.g., /api/v1/user-achievements).</constraint>
+      <constraint type="Database Naming">Use plural, snake_case (e.g., financial_goals).</constraint>
+      <constraint type="Component Naming (Svelte)">Use PascalCase (e.g., StatCard.svelte).</constraint>
+      <constraint type="Error Handling">A global exception handler in FastAPI will catch all errors and return the standard JSON error response.</constraint>
+      <constraint type="Date/Time Handling">All dates and times will be stored in the database in UTC format.</constraint>
+      <constraint type="Security">Passwords will be salted and hashed using a strong algorithm (e.g., bcrypt).</constraint>
+      <constraint type="Authentication">Use JWT token-based authentication.</constraint>
+  </constraints>
+  <interfaces>
+      <interface name="User Registration" kind="REST endpoint" signature="POST /api/v1/users" path="backend/app/api/v1/endpoints/auth.py"/>
+  </interfaces>
+  <tests>
+    <standards>Given that automated testing frameworks were not included in the initial setup, this epic will be validated through a combination of API-level and manual end-to-end testing. Unit tests should be added for the backend registration endpoint, and component tests for the frontend registration form.</standards>
+    <locations>
+      <location type="backend">Not yet defined.</location>
+      <location type="frontend">Not yet defined.</location>
+    </locations>
+    <ideas>
+      <idea ac_ref="3">Verify that a new user record is created in the `users` database table after a successful registration.</idea>
+      <idea ac_ref="4">Verify that the user is automatically logged in and redirected to the main dashboard after a successful registration.</idea>
+      <idea ac_ref="5">Verify that the API returns a JWT token upon successful registration.</idea>
+    </ideas>
+  </tests>
+</story-context>

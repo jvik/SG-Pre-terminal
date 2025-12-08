@@ -600,9 +600,9 @@ Based on detected stack and scripts:
 Or for Python:
 
 ```
-1. python -m venv venv
-2. source venv/bin/activate
-3. pip install -r requirements.txt
+1. uv venv
+2. source .venv/bin/activate
+3. uv pip install -e ".[dev]"
 4. python manage.py runserver
 ```
 

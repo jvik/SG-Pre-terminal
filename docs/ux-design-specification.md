@@ -109,9 +109,9 @@ graph TD
 **Steps:**
 1.  User logs in and lands on the **Main Dashboard**.
 2.  User clicks the "Add Expense" button.
-3.  An "Add Transaction" modal appears (similar to the "Create Category" modal).
-4.  User enters the amount, selects a category, adds a description, and confirms the date.
-5.  User clicks "Save Transaction".
+3.  **An "Add Transaction" modal appears (similar to the "Create Category" modal).**
+4.  **User enters the amount, selects a category (or clicks "Create New" to add one instantly), adds a description, and confirms the date.**
+5.  **User clicks "Save Transaction".**
 6.  The modal closes, and the dashboard widgets (e.g., Total Expenses, Spending Breakdown) update in real-time.
 7.  User navigates to the **Spreadsheet** page via the sidebar.
 8.  The new transaction is visible at the top of the transaction list.

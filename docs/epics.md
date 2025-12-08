@@ -185,6 +185,26 @@ So that I can remove accidental or incorrect entries.
 
 **Technical Notes:** Requires a `DELETE /api/v1/transactions/{transaction_id}` endpoint. The UI should include a confirmation step (e.g., a modal dialog) to prevent accidental deletions.
 
+### Story 2.5: Quick Category Creation
+
+As a user,
+I want to create a new category directly from the "Add Transaction" screen,
+So that I don't have to interrupt my workflow if I realize a category is missing.
+
+**Acceptance Criteria:**
+
+**Given** a user is adding a new transaction
+**When** they open the category selection dropdown
+**Then** they see an option to "Create New Category".
+**When** they select this option
+**Then** a secondary input or modal appears to enter the new category details (name/icon).
+**When** they save the new category
+**Then** it is immediately selected in the transaction form, and the form remains open with previous data preserved.
+
+**Prerequisites:** Story 2.2
+
+**Technical Notes:** This is a frontend-heavy story. It requires reusing the category creation logic (or component) within the `TransactionForm`. The backend `POST /categories` endpoint already exists and should be reused. Ensure the state of the transaction form is not lost during this side-task.
+
 ---
 
 ## Epic 3: Dashboard, Visualization & Data Export
@@ -241,6 +261,26 @@ So that I can perform my own analysis or keep a local backup.
 **Prerequisites:** Story 2.3
 
 **Technical Notes:** A backend endpoint, `GET /api/v1/export/csv`, will be created. This endpoint will query the user's transactions, format them into a CSV string, and return it with the appropriate headers for file download.
+
+### Story 3.4: Implement Global Navigation Sidebar
+
+As a user,
+I want a persistent sidebar on all application pages,
+So that I can easily navigate between the Dashboard, Spreadsheet, and Settings.
+
+**Acceptance Criteria:**
+
+**Given** a logged-in user
+**When** they view any page
+**Then** a fixed sidebar is visible on the left side of the screen.
+**And** it contains links to: Dashboard, Spreadsheet/Transactions, and Settings.
+**And** the current page is visually highlighted in the sidebar.
+**When** viewing on a mobile screen
+**Then** the sidebar collapses into a hamburger menu.
+
+**Prerequisites:** Story 3.1
+
+**Technical Notes:** This is a global layout change. Use SvelteKit's layout system (`+layout.svelte`) to ensure the sidebar persists. Responsive design is required using Tailwind CSS.
 
 ---
 

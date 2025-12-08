@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<story_context>
+  <story>
+    <epic_id>2</epic_id>
+    <story_id>3</story_id>
+    <story_key>2-3-view-and-update-transactions</story_key>
+    <title>View and Update Transactions</title>
+    <as_a>a user</as_a>
+    <i_want>to view a list of my past transactions and be able to edit them</i_want>
+    <so_that>I can review my financial history and correct any mistakes</so_that>
+  </story>
+
+  <acceptance_criteria>
+    <criterion id="1">**Given** a user is viewing their transaction history, **when** they select a specific transaction to edit, **then** a form appears pre-filled with the transaction's details.</criterion>
+    <criterion id="2">**When** the user modifies and saves the changes, **then** the transaction is updated in the database and the list is refreshed.</criterion>
+  </acceptance_criteria>
+
+  <story_tasks>
+    <task id="1" ac_refs="2">**Backend: Create API Endpoint for Updating Transactions**</task>
+    <task id="2" ac_refs="1">**Backend: Create API Endpoint for Listing Transactions**</task>
+    <task id="3" ac_refs="1, 2">**Frontend: Create Transaction List Component**</task>
+    <task id="4" ac_refs="1, 2">**Frontend: Implement Transaction Edit Modal**</task>
+  </story_tasks>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/architecture.md" title="Decision Architecture Document" section="API Naming">
+        <snippet>Endpoints: Use plural nouns and kebab-case (e.g., /api/v1/user-achievements). Route Parameters: Use {parameter_id} (e.g., /transactions/{transaction_id}).</snippet>
+      </doc>
+      <doc path="docs/epics.md" title="Epic Breakdown" section="Story 2.3: View and Update Transactions">
+        <snippet>The backend needs GET /api/v1/transactions to list transactions and PUT /api/v1/transactions/{transaction_id} to update a specific one. The frontend will display these in a table or list format.</snippet>
+      </doc>
+      <doc path="docs/sprint-artifacts/tech-spec-epic-2.md" title="Epic Technical Specification: Core Financial Management" section="APIs and Interfaces">
+        <snippet>Transactions API (/api/v1/transactions) - GET /: Lists all transactions for the authenticated user, with optional filtering. PUT /{transaction_id}: Updates an existing transaction.</snippet>
+      </doc>
+    </docs>
+    <code_existing>
+        <code path="excelence/backend/app/api/v1/endpoints/transactions.py" kind="endpoint" symbol="create_transaction" lines="36" reason="Existing endpoint for creating transactions. The GET and PUT endpoints will be added here."/>
+    </code_existing>
+    <code_scaffold>
+        <code path="excelence/frontend/src/lib/components/routes/dashboard/TransactionList.svelte" kind="component" symbol="TransactionList" reason="New component to display the list of transactions."/>
+        <code path="excelence/frontend/src/lib/components/routes/dashboard/TransactionForm.svelte" kind="component" symbol="TransactionForm" reason="New or reused component for the transaction editing modal."/>
+    </code_scaffold>
+    <dependencies>
+        <dependency ecosystem="python" name="fastapi" version=">=0.115.0"/>
+        <dependency ecosystem="python" name="supabase" version="==2.5.0"/>
+        <dependency ecosystem="javascript" name="svelte" version="^5.43.8"/>
+        <dependency ecosystem="javascript" name="@sveltejs/kit" version="^2.48.5"/>
+    </dependencies>
+  </artifacts>
+
+  <interfaces>
+    <interface name="List Transactions" kind="REST endpoint" signature="GET /api/v1/transactions" path="excelence/backend/app/api/v1/endpoints/transactions.py"/>
+    <interface name="Update Transaction" kind="REST endpoint" signature="PUT /api/v1/transactions/{transaction_id}" path="excelence/backend/app/api/v1/endpoints/transactions.py"/>
+  </interfaces>
+
+  <constraints>
+    <constraint from="docs/architecture.md#API-Naming">API endpoints must use plural nouns and kebab-case.</constraint>
+    <constraint from="docs/architecture.md#Database-Naming">Database tables must use plural, snake_case.</constraint>
+    <constraint from="docs/sprint-artifacts/tech-spec-epic-2.md#Security">All backend queries MUST be scoped to the user_id of the currently authenticated user.</constraint>
+    <constraint from="docs/architecture.md#Error-Handling">The frontend API service should handle potential errors from the API.</constraint>
+  </constraints>
+
+  <tests>
+    <standards>Frontend component tests are mandatory. A test file must be created for TransactionList.svelte.</standards>
+    <locations>
+        <location>excelence/frontend/src/lib/components/routes/dashboard/</location>
+    </locations>
+    <ideas>
+        <idea ac_ref="1">Verify that clicking the 'Edit' button on a transaction opens the modal with the correct data pre-filled.</idea>
+        <idea ac_ref="2">Verify that submitting the edit form updates the transaction in the list and the database.</idea>
+    </ideas>
+  </tests>
+
+</story_context>
