@@ -29,9 +29,9 @@ class Transaction(BaseModel):
 class TransactionUpdate(BaseModel):
     amount: Optional[float] = None
     type: Optional[str] = None  # "income" or "expense"
-    date: Optional[date] = None
+    date: Optional[str] = None  # Accept string in ISO format
     description: Optional[str] = None
-    category_id: Optional[uuid.UUID] = None
+    category_id: Optional[str] = None  # Accept string UUID
 
 # --- API Endpoints ---
 @router.get("/", response_model=List[Transaction])
