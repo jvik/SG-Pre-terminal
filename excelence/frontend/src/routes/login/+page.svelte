@@ -37,7 +37,13 @@
 
 <div class="flex items-center justify-center h-screen">
   <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-    <h1 class="text-2xl font-bold text-center">Login</h1>
+    <a href="/" class="block">
+      <h1
+        class="text-2xl font-bold text-center text-blue-600 hover:text-blue-700 cursor-pointer transition-colors"
+      >
+        Login
+      </h1>
+    </a>
     <form on:submit|preventDefault={handleSubmit} class="space-y-6">
       <div>
         <label for="email" class="block text-sm font-medium text-gray-700"
