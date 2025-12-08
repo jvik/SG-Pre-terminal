@@ -9,6 +9,7 @@
 	import Sidebar from "$lib/components/layout/Sidebar.svelte";
 
 	let { children } = $props();
+	let isCollapsed = $state(false);
 
 	$effect(() => {
 		if (browser && !$authStore.isAuthenticated) {
@@ -32,9 +33,11 @@
 </svelte:head>
 
 {#if $authStore.isAuthenticated}
-	<Sidebar />
+	<Sidebar bind:isCollapsed />
 	<main
-		class="min-h-screen bg-slate-50 p-4 transition-all duration-300 dark:bg-slate-900 md:ml-64"
+		class="min-h-screen bg-slate-50 p-4 transition-all duration-300 dark:bg-slate-900"
+		class:md:ml-64={!isCollapsed}
+		class:md:ml-20={isCollapsed}
 	>
 		{@render children()}
 	</main>
