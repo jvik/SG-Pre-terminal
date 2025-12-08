@@ -17,6 +17,8 @@
 {:else}
 	<!-- Loading/redirecting state -->
 	<div class="min-h-screen flex items-center justify-center">
-		<p class="text-gray-600 dark:text-slate-300">Redirecting to dashboard...</p>
+		<p class="text-gray-600 dark:text-slate-300">
+			Redirecting to dashboard...
+		</p>
 	</div>
 {/if}
