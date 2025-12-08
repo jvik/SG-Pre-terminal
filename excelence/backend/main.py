@@ -5,6 +5,9 @@ from app.core.config import settings
 
 app = FastAPI()
 
+# Log CORS configuration on startup
+print(f"🔧 CORS Origins configured: {settings.cors_origins_list}")
+
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
