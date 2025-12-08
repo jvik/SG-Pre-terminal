@@ -5,14 +5,32 @@
   let email = "";
   let password = "";
   let error: string | null = null;
+  let isLoading = false;
+  let showSlowApiWarning = false;
+  let timeoutId: ReturnType<typeof setTimeout>;
 
   async function handleSubmit() {
     error = null;
+    isLoading = true;
+    showSlowApiWarning = false;
+
+    // Show warning after 3 seconds if still loading
+    timeoutId = setTimeout(() => {
+      if (isLoading) {
+        showSlowApiWarning = true;
+      }
+    }, 3000);
+
     try {
       await authStore.login(email, password);
+      clearTimeout(timeoutId);
       goto("/dashboard");
     } catch (err) {
+      clearTimeout(timeoutId);
       error = (err as Error).message;
+    } finally {
+      isLoading = false;
+      showSlowApiWarning = false;
     }
   }
 </script>
@@ -48,12 +66,24 @@
       {#if error}
         <p class="text-sm text-red-600">{error}</p>
       {/if}
+      {#if showSlowApiWarning}
+        <div
+          class="p-3 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-md"
+        >
+          <p class="font-medium">⏳ Starting up backend server...</p>
+          <p class="mt-1 text-xs">
+            The API is hosted on Render's free tier and may take up to 30
+            seconds to wake up from sleep. Please wait a moment.
+          </p>
+        </div>
+      {/if}
       <div>
         <button
           type="submit"
-          class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          disabled={isLoading}
+          class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Login
+          {isLoading ? "Logging in..." : "Login"}
         </button>
       </div>
     </form>
