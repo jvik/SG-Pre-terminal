@@ -3,13 +3,7 @@
     import type { Theme } from "$lib/stores/theme";
 
     function selectTheme(theme: Theme) {
-        console.log("Selecting theme:", theme);
         themeStore.setTheme(theme);
-        console.log("Theme store after set:", $themeStore);
-        console.log(
-            "HTML element classes:",
-            document.documentElement.classList.toString(),
-        );
     }
 
     const themeOptions = [
