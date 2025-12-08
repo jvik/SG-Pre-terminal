@@ -19,8 +19,22 @@
 
 	// Common emojis for quick category creation
 	const commonEmojis = [
-		"📂", "🍔", "🏠", "🚗", "💰", "🎮", "📱", "👕",
-		"🎬", "✈️", "🏥", "📚", "🎵", "⚽", "🛒", "☕",
+		"📂",
+		"🍔",
+		"🏠",
+		"🚗",
+		"💰",
+		"🎮",
+		"📱",
+		"👕",
+		"🎬",
+		"✈️",
+		"🏥",
+		"📚",
+		"🎵",
+		"⚽",
+		"🛒",
+		"☕",
 	];
 
 	$: {
@@ -54,7 +68,10 @@
 		try {
 			isCreatingCategory = true;
 			formError = null;
-			const newCategory = await createCategory(newCategoryName.trim(), newCategoryEmoji);
+			const newCategory = await createCategory(
+				newCategoryName.trim(),
+				newCategoryEmoji,
+			);
 			// Add the new category to the list
 			categories = [...categories, newCategory];
 			// Select the newly created category
@@ -79,7 +96,7 @@
 			formError = "Please select a category.";
 			return;
 		}
-		
+
 		formError = null;
 		const data = {
 			amount: Number(amount),
@@ -212,7 +229,8 @@
 					<option value={null} disabled>Select a category</option>
 					{#each categories as category}
 						<option value={category.id}>
-							{category.emoji || "📂"} {category.name}
+							{category.emoji || "📂"}
+							{category.name}
 						</option>
 					{/each}
 				</select>
@@ -239,10 +257,14 @@
 						Create New Category
 					</button>
 				{:else}
-					<div class="mt-3 p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg space-y-3">
+					<div
+						class="mt-3 p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg space-y-3"
+					>
 						<!-- Emoji Picker -->
 						<div>
-							<label class="block text-xs font-semibold text-gray-700 dark:text-slate-300 mb-2">
+							<label
+								class="block text-xs font-semibold text-gray-700 dark:text-slate-300 mb-2"
+							>
 								Icon
 							</label>
 							<div class="flex items-center gap-2 mb-2">
@@ -254,15 +276,20 @@
 									placeholder="📂"
 									disabled={isCreatingCategory}
 								/>
-								<span class="text-xs text-gray-500 dark:text-slate-400">or choose:</span>
+								<span
+									class="text-xs text-gray-500 dark:text-slate-400"
+									>or choose:</span
+								>
 							</div>
 							<div class="grid grid-cols-8 gap-1.5">
 								{#each commonEmojis as emoji}
 									<button
 										type="button"
-										on:click={() => (newCategoryEmoji = emoji)}
+										on:click={() =>
+											(newCategoryEmoji = emoji)}
 										disabled={isCreatingCategory}
-										class="text-xl p-1.5 rounded-md transition-all duration-150 disabled:opacity-50 {newCategoryEmoji === emoji
+										class="text-xl p-1.5 rounded-md transition-all duration-150 disabled:opacity-50 {newCategoryEmoji ===
+										emoji
 											? 'bg-blue-100 dark:bg-blue-900/50 ring-2 ring-blue-500 dark:ring-blue-400 scale-110'
 											: 'hover:bg-gray-100 dark:hover:bg-slate-600'}"
 									>
@@ -274,7 +301,9 @@
 
 						<!-- Category Name -->
 						<div>
-							<label class="block text-xs font-semibold text-gray-700 dark:text-slate-300 mb-2">
+							<label
+								class="block text-xs font-semibold text-gray-700 dark:text-slate-300 mb-2"
+							>
 								Name
 							</label>
 							<input
@@ -320,12 +349,12 @@
 							</button>
 							<button
 								type="button"
-							on:click={() => {
-								showNewCategoryInput = false;
-								newCategoryName = "";
-								newCategoryEmoji = "📂";
-								formError = null;
-							}}
+								on:click={() => {
+									showNewCategoryInput = false;
+									newCategoryName = "";
+									newCategoryEmoji = "📂";
+									formError = null;
+								}}
 								disabled={isCreatingCategory}
 								class="flex-1 bg-gray-200 hover:bg-gray-300 dark:bg-slate-600 dark:hover:bg-slate-500 text-gray-800 dark:text-white font-semibold py-2.5 px-4 rounded-lg transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
 							>
