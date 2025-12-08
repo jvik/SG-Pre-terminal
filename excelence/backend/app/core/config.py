@@ -24,6 +24,11 @@ class Settings(BaseSettings):
     @property
     def cors_origins_list(self) -> list[str]:
         return [origin.strip() for origin in self.CORS_ORIGINS.split(",")]
+    
+    @property
+    def frontend_url(self) -> str:
+        """Get the first CORS origin as the primary frontend URL for redirects."""
+        return self.cors_origins_list[0]
 
 settings = Settings()
 

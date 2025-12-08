@@ -3,6 +3,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from app.db.session import supabase
+from app.core.config import settings
 
 router = APIRouter()
 
@@ -93,4 +94,4 @@ def auth_callback():
     """
     # Supabase will send the user here after email verification
     # We redirect to frontend which will handle the token in the hash
-    return RedirectResponse(url="http://localhost:5173", status_code=307)
+    return RedirectResponse(url=settings.frontend_url, status_code=307)
