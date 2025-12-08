@@ -74,7 +74,7 @@
 				{#each transactions as transaction}
 					<li>
 						{transaction.date}: {transaction.description ||
-							"No description"} - ${transaction.amount}
+							"No description"} - {transaction.amount} kr
 					</li>
 				{/each}
 			</ul>

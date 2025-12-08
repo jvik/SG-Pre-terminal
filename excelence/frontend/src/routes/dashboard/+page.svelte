@@ -102,7 +102,7 @@
 						>
 							{transaction.type === "income"
 								? "+"
-								: "-"}${transaction.amount.toFixed(2)}
+								: "-"}{transaction.amount.toFixed(2)} kr
 						</td>
 					</tr>
 				{/each}

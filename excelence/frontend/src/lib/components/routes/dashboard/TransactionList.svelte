@@ -143,7 +143,7 @@
             >
               {transaction.type === "income"
                 ? "+"
-                : "-"}${transaction.amount.toFixed(2)}
+                : "-"}{transaction.amount.toFixed(2)} kr
             </td>
             <td class="p-2 text-right">
               <button
