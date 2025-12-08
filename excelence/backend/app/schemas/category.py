@@ -3,6 +3,7 @@ import uuid
 
 class CategoryBase(BaseModel):
     name: str
+    emoji: str | None = None
 
 class CategoryCreate(CategoryBase):
     pass

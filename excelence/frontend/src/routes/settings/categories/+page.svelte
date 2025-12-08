@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { getCategories, createCategory, updateCategory, deleteCategory } from '$lib/services/api';
 
-	let categories: { id: number; name: string }[] = [];
+	let categories: { id: number; name: string; emoji?: string }[] = [];
 	let isLoading = true;
 	let error: string | null = null;
 
@@ -11,7 +11,11 @@
 	let isEditing = false;
 	let categoryToEditId: number | null = null;
 	let categoryNameInput = '';
+	let categoryEmojiInput = '📂';
 	let modalError: string | null = null;
+
+	// Common emojis for categories
+	const commonEmojis = ['📂', '🍔', '🏠', '🚗', '💰', '🎮', '📱', '👕', '🎬', '✈️', '🏥', '📚', '🎵', '⚽', '🛒', '☕', '🎁', '💼'];
 
 	// Delete confirmation state
 	let showDeleteConfirm = false;
@@ -38,14 +42,16 @@
 		isEditing = false;
 		categoryToEditId = null;
 		categoryNameInput = '';
+		categoryEmojiInput = '📂';
 		modalError = null;
 		showModal = true;
 	}
 
-	function openEditModal(category: { id: number; name: string }) {
+	function openEditModal(category: { id: number; name: string; emoji?: string }) {
 		isEditing = true;
 		categoryToEditId = category.id;
 		categoryNameInput = category.name;
+		categoryEmojiInput = category.emoji || '📂';
 		modalError = null;
 		showModal = true;
 	}
@@ -59,12 +65,24 @@
 			modalError = 'Category name cannot be empty.';
 			return;
 		}
+		
+		// Check for duplicate names (case-insensitive)
+		const normalizedName = categoryNameInput.trim().toLowerCase();
+		const isDuplicate = categories.some(cat => 
+			cat.name.toLowerCase() === normalizedName && cat.id !== categoryToEditId
+		);
+		
+		if (isDuplicate) {
+			modalError = 'A category with this name already exists.';
+			return;
+		}
+		
 		try {
 			modalError = null;
 			if (isEditing && categoryToEditId !== null) {
-				await updateCategory(categoryToEditId, categoryNameInput);
+				await updateCategory(categoryToEditId, categoryNameInput, categoryEmojiInput);
 			} else {
-				await createCategory(categoryNameInput);
+				await createCategory(categoryNameInput, categoryEmojiInput);
 			}
 			await loadCategories(); // Refresh list
 			closeModal();
@@ -120,6 +138,7 @@
 			<table class="min-w-full table-auto">
 				<thead class="bg-gray-200">
 					<tr>
+						<th class="px-4 py-2 text-left w-16">Icon</th>
 						<th class="px-4 py-2 text-left">Category Name</th>
 						<th class="px-4 py-2 text-right">Actions</th>
 					</tr>
@@ -127,6 +146,7 @@
 				<tbody>
 					{#each categories as category (category.id)}
 						<tr class="border-b">
+							<td class="px-4 py-2 text-2xl">{category.emoji || '📂'}</td>
 							<td class="px-4 py-2">{category.name}</td>
 							<td class="px-4 py-2 text-right">
 								<button
@@ -158,12 +178,41 @@
 			{#if modalError}
 				<p class="text-red-500 text-sm mb-4">{modalError}</p>
 			{/if}
-			<input
-				type="text"
-				bind:value={categoryNameInput}
-				class="w-full p-2 border rounded mb-4"
-				placeholder="Enter category name"
-			/>
+			
+			<div class="mb-4">
+				<label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
+				<div class="flex items-center gap-2 mb-2">
+					<input
+						type="text"
+						bind:value={categoryEmojiInput}
+						class="w-16 p-2 border rounded text-center text-2xl"
+						maxlength="2"
+						placeholder="📂"
+					/>
+					<span class="text-sm text-gray-500">or choose:</span>
+				</div>
+				<div class="grid grid-cols-9 gap-2">
+					{#each commonEmojis as emoji}
+						<button
+							type="button"
+							on:click={() => categoryEmojiInput = emoji}
+							class="text-2xl p-2 rounded hover:bg-gray-100 {categoryEmojiInput === emoji ? 'bg-blue-100' : ''}"
+						>
+							{emoji}
+						</button>
+					{/each}
+				</div>
+			</div>
+			
+			<div class="mb-4">
+				<label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+				<input
+					type="text"
+					bind:value={categoryNameInput}
+					class="w-full p-2 border rounded"
+					placeholder="Enter category name"
+				/>
+			</div>
 			<div class="flex justify-end gap-4">
 				<button on:click={closeModal} class="text-gray-600">Cancel</button>
 				<button

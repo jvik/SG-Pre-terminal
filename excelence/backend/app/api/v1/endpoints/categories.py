@@ -11,13 +11,16 @@ router = APIRouter()
 # --- Pydantic Models ---
 class CategoryCreate(BaseModel):
     name: str
+    emoji: str | None = None
 
 class CategoryUpdate(BaseModel):
     name: str
+    emoji: str | None = None
 
 class Category(BaseModel):
     id: uuid.UUID
     name: str
+    emoji: str | None = None
     user_id: uuid.UUID
 
 # --- API Endpoints ---
@@ -30,6 +33,7 @@ def create_category(category: CategoryCreate, user: models.User = Depends(deps.g
         user_id = user.id
         response = supabase.table('categories').insert({
             "name": category.name,
+            "emoji": category.emoji,
             "user_id": str(user_id)
         }).execute()
 
@@ -40,6 +44,7 @@ def create_category(category: CategoryCreate, user: models.User = Depends(deps.g
         return Category(
             id=created_category['id'],
             name=created_category['name'],
+            emoji=created_category.get('emoji'),
             user_id=created_category['user_id']
         )
     except HTTPException as e:
@@ -68,7 +73,8 @@ def update_category(category_id: uuid.UUID, category: CategoryUpdate, user: mode
         user_id = user.id
         # RLS in Supabase should enforce ownership, but we double-check here.
         response = supabase.table('categories').update({
-            "name": category.name
+            "name": category.name,
+            "emoji": category.emoji
         }).eq('id', str(category_id)).eq('user_id', str(user_id)).execute()
 
         if not response.data:

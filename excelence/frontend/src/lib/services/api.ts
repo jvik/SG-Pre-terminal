@@ -62,12 +62,12 @@ export const getCategories = () => {
   return api.get('/api/v1/categories/');
 };
 
-export const createCategory = (name: string) => {
-  return api.post('/api/v1/categories/', { name });
+export const createCategory = (name: string, emoji?: string) => {
+  return api.post('/api/v1/categories/', { name, emoji });
 };
 
-export const updateCategory = (id: string, name: string) => {
-  return api.put(`/api/v1/categories/${id}`, { name });
+export const updateCategory = (id: string, name: string, emoji?: string) => {
+  return api.put(`/api/v1/categories/${id}`, { name, emoji });
 };
 
 export const deleteCategory = (id: string) => {
