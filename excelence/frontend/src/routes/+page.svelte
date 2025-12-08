@@ -7,10 +7,12 @@
 
 	let verificationMessage = $state("");
 	let isProcessingVerification = $state(false);
+	let isHandlingCallback = $state(false);
 
 	onMount(() => {
 		// Check for email verification callback (Supabase redirects with hash)
 		if (browser && window.location.hash) {
+			isHandlingCallback = true;
 			const hashParams = new URLSearchParams(
 				window.location.hash.substring(1),
 			);
@@ -57,7 +59,8 @@
 		if (
 			browser &&
 			$authStore.isAuthenticated &&
-			!isProcessingVerification
+			!isProcessingVerification &&
+			!isHandlingCallback
 		) {
 			goto("/dashboard");
 		}
