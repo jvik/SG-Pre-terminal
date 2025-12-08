@@ -18,9 +18,6 @@ function createThemeStore() {
         if (!browser) return;
 
         const root = document.documentElement;
-        
-        console.log('applyTheme called with:', theme);
-        console.log('Before - classList:', root.classList.toString());
 
         if (theme === 'system') {
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -34,12 +31,7 @@ function createThemeStore() {
         } else {
             root.classList.remove('dark');
         }
-        
-        console.log('After - classList:', root.classList.toString());
-        console.log('Has dark class:', root.classList.contains('dark'));
-    };
-
-    // Listen to system preference changes
+    };    // Listen to system preference changes
     if (browser) {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         mediaQuery.addEventListener('change', (e) => {
