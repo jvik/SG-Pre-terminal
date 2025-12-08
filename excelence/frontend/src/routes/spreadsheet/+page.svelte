@@ -45,7 +45,7 @@
     // Get available months from transactions
     $: availableMonths = (() => {
         const months = new Set(
-            $transactions.map((t) => t.date.substring(0, 7))
+            $transactions.map((t) => t.date.substring(0, 7)),
         );
         return Array.from(months).sort().reverse();
     })();
@@ -91,13 +91,14 @@
             await updateTransaction(transactionId, updatePayload);
             await loadTransactions();
             editingId = null;
-			editForm = null;
-		} catch (error) {
-			console.error("Full error:", error);
-			const errorMsg = (error as any)?.message || JSON.stringify(error);
-			alert(`Error updating transaction: ${errorMsg}`);
-		}
-	}    function startAddingNew() {
+            editForm = null;
+        } catch (error) {
+            console.error("Full error:", error);
+            const errorMsg = (error as any)?.message || JSON.stringify(error);
+            alert(`Error updating transaction: ${errorMsg}`);
+        }
+    }
+    function startAddingNew() {
         isAddingNew = true;
         editingId = null;
         editForm = null;
@@ -194,7 +195,7 @@
                                     {
                                         year: "numeric",
                                         month: "long",
-                                    }
+                                    },
                                 )}
                             </option>
                         {/each}
@@ -216,7 +217,9 @@
                         <option value="">All Categories</option>
                         {#each $categories as category}
                             <option value={category.id}>
-                                {category.emoji ? `${category.emoji} ` : ""}{category.name}
+                                {category.emoji
+                                    ? `${category.emoji} `
+                                    : ""}{category.name}
                             </option>
                         {/each}
                     </select>

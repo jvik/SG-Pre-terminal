@@ -23,7 +23,7 @@
 		? $transactions.filter((t) => {
 				const transactionMonth = t.date.substring(0, 7); // YYYY-MM
 				return transactionMonth === selectedMonth;
-		  })
+			})
 		: $transactions;
 
 	// Computed summary based on filtered transactions
@@ -56,14 +56,14 @@
 					category_name: category?.name || "Unknown",
 					total_amount: amount,
 				};
-			}
+			},
 		);
 	})();
 
 	// Get available months from transactions
 	$: availableMonths = (() => {
 		const months = new Set(
-			$transactions.map((t) => t.date.substring(0, 7))
+			$transactions.map((t) => t.date.substring(0, 7)),
 		);
 		return Array.from(months).sort().reverse();
 	})();
@@ -121,10 +121,13 @@
 					<option value="">All Time</option>
 					{#each availableMonths as month}
 						<option value={month}>
-							{new Date(month + "-01").toLocaleDateString("en-US", {
-								year: "numeric",
-								month: "long",
-							})}
+							{new Date(month + "-01").toLocaleDateString(
+								"en-US",
+								{
+									year: "numeric",
+									month: "long",
+								},
+							)}
 						</option>
 					{/each}
 				</select>
