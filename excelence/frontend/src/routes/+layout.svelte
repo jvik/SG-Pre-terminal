@@ -10,11 +10,6 @@
 
 	let { children } = $props();
 
-	function logout() {
-		authStore.logout();
-		goto("/login");
-	}
-
 	$effect(() => {
 		if (browser && !$authStore.isAuthenticated) {
 			const publicRoutes = ["/", "/login", "/register"];
@@ -41,14 +36,6 @@
 	<main
 		class="min-h-screen bg-slate-50 p-4 transition-all duration-300 dark:bg-slate-900 md:ml-64"
 	>
-		<div class="mb-4 flex justify-end">
-			<button
-				onclick={logout}
-				class="rounded-md bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
-			>
-				Logout
-			</button>
-		</div>
 		{@render children()}
 	</main>
 {:else}
