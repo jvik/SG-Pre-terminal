@@ -21,9 +21,9 @@
 		await loadTransactions(); // This will also trigger loadSummary()
 	});
 
-	async function handleSaveTransaction(event) {
+	async function handleSaveTransaction(data) {
 		try {
-			await createTransaction(event.detail);
+			await createTransaction(data);
 			await loadTransactions(); // Refreshes both transactions and summary
 			showTransactionModal = false;
 		} catch (error) {
