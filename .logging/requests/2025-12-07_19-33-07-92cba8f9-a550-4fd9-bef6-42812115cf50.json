@@ -1,0 +1,284 @@
+[
+  {
+    "request": null,
+    "response": {
+      "session.id": "92cba8f9-a550-4fd9-bef6-42812115cf50",
+      "installation.id": "5537133b-5071-43da-af8b-64e70ea6a0b2",
+      "interactive": true,
+      "event.name": "gemini_cli.api_response",
+      "event.timestamp": "2025-12-07T19:33:07.305Z",
+      "model": "gemini-2.5-pro",
+      "duration_ms": 4921,
+      "input_token_count": 55778,
+      "output_token_count": 55,
+      "cached_content_token_count": 17103,
+      "thoughts_token_count": 108,
+      "tool_token_count": 0,
+      "total_token_count": 55941,
+      "prompt_id": "92cba8f9-a550-4fd9-bef6-42812115cf50########11",
+      "auth_type": "gemini-api-key",
+      "status_code": 200,
+      "response_text": [
+        {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": "**Considering Next Steps**\n\nI've completed the code review, and now I'm mulling over what to tackle next.  There's no directive yet on specifics, but I think addressing the review's outcomes is the logical next step. I'm waiting for direction on the specific action items from the code review.\n\n\n",
+                    "thought": true
+                  }
+                ],
+                "role": "model"
+              },
+              "index": 0
+            }
+          ],
+          "modelVersion": "gemini-2.5-pro",
+          "responseId": "cdY1adb8FaSxnsEP_fHh8A8",
+          "usageMetadata": {
+            "promptTokenCount": 55778,
+            "totalTokenCount": 55823,
+            "cachedContentTokenCount": 17103,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 55778
+              }
+            ],
+            "cacheTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 17103
+              }
+            ],
+            "thoughtsTokenCount": 45
+          },
+          "sdkHttpResponse": {
+            "headers": {
+              "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+              "content-disposition": "attachment",
+              "content-type": "text/event-stream",
+              "date": "Sun, 07 Dec 2025 19:33:06 GMT",
+              "server": "scaffolding on HTTPServer2",
+              "server-timing": "gfet4t7; dur=4204",
+              "transfer-encoding": "chunked",
+              "vary": "Origin, X-Origin, Referer",
+              "x-content-type-options": "nosniff",
+              "x-frame-options": "SAMEORIGIN",
+              "x-xss-protection": "0"
+            }
+          }
+        },
+        {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": "**Defining the Action Plan**\n\nI'm now formulating a plan based on the completed code review. Since specific tasks aren't yet defined, I'll propose a structured approach: first, revisit the story file to pinpoint all action items from the review, then suggest tackling them systematically, beginning with the highest-priority concerns.\n\n\n",
+                    "thought": true
+                  }
+                ],
+                "role": "model"
+              },
+              "index": 0
+            }
+          ],
+          "modelVersion": "gemini-2.5-pro",
+          "responseId": "cdY1adb8FaSxnsEP_fHh8A8",
+          "usageMetadata": {
+            "promptTokenCount": 55778,
+            "totalTokenCount": 55886,
+            "cachedContentTokenCount": 17103,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 55778
+              }
+            ],
+            "cacheTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 17103
+              }
+            ],
+            "thoughtsTokenCount": 108
+          },
+          "sdkHttpResponse": {
+            "headers": {
+              "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+              "content-disposition": "attachment",
+              "content-type": "text/event-stream",
+              "date": "Sun, 07 Dec 2025 19:33:06 GMT",
+              "server": "scaffolding on HTTPServer2",
+              "server-timing": "gfet4t7; dur=4204",
+              "transfer-encoding": "chunked",
+              "vary": "Origin, X-Origin, Referer",
+              "x-content-type-options": "nosniff",
+              "x-frame-options": "SAMEORIGIN",
+              "x-xss-protection": "0"
+            }
+          }
+        },
+        {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": "I have completed the code review for story `3-1-display-financial-summary`. The outcome is \"Changes",
+                    "thoughtSignature": "CiQBcsjafLE5lXjN1EHpWEkSQ/ji5I4NYpCxPkA73vkMP1cUy+QKbwFyyNp8kr38cKsNNpNTjwNXKi74sRibdW3RWOZVkO0j0Ohkry1GMQTuPn0sgyogmvhStXqjN7QEhjSnL6YYP9VkxeOBjCfAqk3pUNbMsgVoDOX9Fqv7jcUt+v9voBS75DyWI+F86myGzCWSkX7m2gqfAQFyyNp8V/NBFF9i+Ay6N/Ck6Yb1LRTDzObCbSbRhfcxp0huvx+ITPq8CuHgt1c0SqXKTZ+zMlBY7Iz0t3N3qGGEMA15fGrh8oGtGpv+dY0bQ919w4oCRb6vAQretJWRCKzty82tmzDiSezwrwDGwezIwf0fvhud2syWxeeXbZpa/0BEatGuGMspvYp/uXXjh+Ztz46JHuzx8Ag30bty/gp7AXLI2nx9//Ej+xvHJzYU2x8vi7qDtBDAIDtmcikb+ZulJgczO8vLYpih5yCnt4gLMo5pJwq+Y7WdIaM2MgGSz81zGswbWXi4RnkAxfSWhbONrHPBjlprzz82bec8BDNfrgGhW3lI5HB5nJNgp3/ZjhETolLo3iSifj0lCoYBAXLI2nxWkz8XPkV1DVlgiqxJh+KPYWgOZfDgMxS2ebZ+ZJi451bg4SsWpyZULgPpP+H0QjBiSyYH/sl54zMf+ICAQhD7rCI4uAh1F+cceJ5F371LnJPXSdNU/qWeTAa+WFG0VADSYL1RClL4sFScfOIuhbeZ6sQVmP5LfeAeIYTeeJ1sSvMKYAFyyNp80XsHjDtmDmTAcLimh+DmZ8n2+mJYvTfSEcPSQKFBTsU4aNWVNPs7Ei1WB9rPvZv8SmbJTriW8lynI28EgCMp3pn8Q7zesF03UWLMHAbg//w/3rCqsosmeC9yGQ=="
+                  }
+                ],
+                "role": "model"
+              },
+              "index": 0
+            }
+          ],
+          "modelVersion": "gemini-2.5-pro",
+          "responseId": "cdY1adb8FaSxnsEP_fHh8A8",
+          "usageMetadata": {
+            "promptTokenCount": 55778,
+            "candidatesTokenCount": 22,
+            "totalTokenCount": 55908,
+            "cachedContentTokenCount": 17103,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 55778
+              }
+            ],
+            "cacheTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 17103
+              }
+            ],
+            "thoughtsTokenCount": 108
+          },
+          "sdkHttpResponse": {
+            "headers": {
+              "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+              "content-disposition": "attachment",
+              "content-type": "text/event-stream",
+              "date": "Sun, 07 Dec 2025 19:33:06 GMT",
+              "server": "scaffolding on HTTPServer2",
+              "server-timing": "gfet4t7; dur=4204",
+              "transfer-encoding": "chunked",
+              "vary": "Origin, X-Origin, Referer",
+              "x-content-type-options": "nosniff",
+              "x-frame-options": "SAMEORIGIN",
+              "x-xss-protection": "0"
+            }
+          }
+        },
+        {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": " Requested\" and I have updated the story file with detailed feedback and action items. The sprint status has been updated accordingly.\n\nI"
+                  }
+                ],
+                "role": "model"
+              },
+              "index": 0
+            }
+          ],
+          "modelVersion": "gemini-2.5-pro",
+          "responseId": "cdY1adb8FaSxnsEP_fHh8A8",
+          "usageMetadata": {
+            "promptTokenCount": 55778,
+            "candidatesTokenCount": 48,
+            "totalTokenCount": 55934,
+            "cachedContentTokenCount": 17103,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 55778
+              }
+            ],
+            "cacheTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 17103
+              }
+            ],
+            "thoughtsTokenCount": 108
+          },
+          "sdkHttpResponse": {
+            "headers": {
+              "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+              "content-disposition": "attachment",
+              "content-type": "text/event-stream",
+              "date": "Sun, 07 Dec 2025 19:33:06 GMT",
+              "server": "scaffolding on HTTPServer2",
+              "server-timing": "gfet4t7; dur=4204",
+              "transfer-encoding": "chunked",
+              "vary": "Origin, X-Origin, Referer",
+              "x-content-type-options": "nosniff",
+              "x-frame-options": "SAMEORIGIN",
+              "x-xss-protection": "0"
+            }
+          }
+        },
+        {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": " am ready for your next instruction."
+                  }
+                ],
+                "role": "model"
+              },
+              "finishReason": "STOP",
+              "index": 0
+            }
+          ],
+          "modelVersion": "gemini-2.5-pro",
+          "responseId": "cdY1adb8FaSxnsEP_fHh8A8",
+          "usageMetadata": {
+            "promptTokenCount": 55778,
+            "candidatesTokenCount": 55,
+            "totalTokenCount": 55941,
+            "cachedContentTokenCount": 17103,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 55778
+              }
+            ],
+            "cacheTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 17103
+              }
+            ],
+            "thoughtsTokenCount": 108
+          },
+          "sdkHttpResponse": {
+            "headers": {
+              "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+              "content-disposition": "attachment",
+              "content-type": "text/event-stream",
+              "date": "Sun, 07 Dec 2025 19:33:06 GMT",
+              "server": "scaffolding on HTTPServer2",
+              "server-timing": "gfet4t7; dur=4204",
+              "transfer-encoding": "chunked",
+              "vary": "Origin, X-Origin, Referer",
+              "x-content-type-options": "nosniff",
+              "x-frame-options": "SAMEORIGIN",
+              "x-xss-protection": "0"
+            }
+          }
+        }
+      ],
+      "http.status_code": 200
+    },
+    "error": null
+  }
+]
