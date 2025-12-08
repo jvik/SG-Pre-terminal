@@ -17,6 +17,13 @@ class Settings(BaseSettings):
     
     SUPABASE_URL: str
     SUPABASE_KEY: str
+    
+    # CORS origins - comma-separated list
+    CORS_ORIGINS: str = "http://localhost:5173"
+    
+    @property
+    def cors_origins_list(self) -> list[str]:
+        return [origin.strip() for origin in self.CORS_ORIGINS.split(",")]
 
 settings = Settings()
 

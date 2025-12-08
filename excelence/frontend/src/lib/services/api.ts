@@ -1,4 +1,6 @@
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+import { PUBLIC_API_URL } from '$env/static/public';
+
+const BASE_URL = PUBLIC_API_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
 const getHeaders = () => {
   const headers = {
