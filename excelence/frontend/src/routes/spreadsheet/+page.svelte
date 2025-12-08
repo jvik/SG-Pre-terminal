@@ -176,7 +176,9 @@
                                     ? "+"
                                     : "-"}{transaction.amount.toFixed(2)} kr
                             </td>
-                            <td class="px-4 py-2 text-center text-gray-400 text-sm">
+                            <td
+                                class="px-4 py-2 text-center text-gray-400 text-sm"
+                            >
                                 Click to edit
                             </td>
                         </tr>
