@@ -46,6 +46,13 @@ def get_expenses_by_category(user_id: uuid.UUID) -> list[dict]:
     ).execute()
 
     if response.data:
-        return response.data
+        # Convert numeric types to float for JSON serialization
+        return [
+            {
+                'category_name': item['category_name'],
+                'total_amount': float(item['total_amount'])
+            }
+            for item in response.data
+        ]
     return []
 

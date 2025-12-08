@@ -69,36 +69,48 @@
 
 	<!-- Quick Stats -->
 	<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-		<div class="bg-gradient-to-br from-green-400 to-green-600 rounded-lg p-6 text-white shadow-lg">
+		<div
+			class="bg-gradient-to-br from-green-400 to-green-600 rounded-lg p-6 text-white shadow-lg"
+		>
 			<div class="flex items-center justify-between">
 				<div>
 					<p class="text-sm opacity-90">Total Income</p>
-					<p class="text-3xl font-bold mt-2">{$summary.total_income.toFixed(2)} kr</p>
+					<p class="text-3xl font-bold mt-2">
+						{$summary.total_income.toFixed(2)} kr
+					</p>
 				</div>
 				<div class="text-5xl opacity-75">💵</div>
 			</div>
 		</div>
 
-		<div class="bg-gradient-to-br from-red-400 to-red-600 rounded-lg p-6 text-white shadow-lg">
+		<div
+			class="bg-gradient-to-br from-red-400 to-red-600 rounded-lg p-6 text-white shadow-lg"
+		>
 			<div class="flex items-center justify-between">
 				<div>
 					<p class="text-sm opacity-90">Total Expenses</p>
-					<p class="text-3xl font-bold mt-2">{$summary.total_expenses.toFixed(2)} kr</p>
+					<p class="text-3xl font-bold mt-2">
+						{$summary.total_expenses.toFixed(2)} kr
+					</p>
 				</div>
 				<div class="text-5xl opacity-75">💸</div>
 			</div>
 		</div>
 
-		<div class="bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg p-6 text-white shadow-lg">
+		<div
+			class="bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg p-6 text-white shadow-lg"
+		>
 			<div class="flex items-center justify-between">
 				<div>
 					<p class="text-sm opacity-90">Net Balance</p>
 					<p class="text-3xl font-bold mt-2">
-						{$summary.net_balance >= 0 ? '+' : ''}{$summary.net_balance.toFixed(2)} kr
+						{$summary.net_balance >= 0
+							? "+"
+							: ""}{$summary.net_balance.toFixed(2)} kr
 					</p>
 				</div>
 				<div class="text-5xl opacity-75">
-					{$summary.net_balance >= 0 ? '✅' : '⚠️'}
+					{$summary.net_balance >= 0 ? "✅" : "⚠️"}
 				</div>
 			</div>
 		</div>
@@ -108,19 +120,23 @@
 	<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
 		<!-- Income vs Expenses Bar Chart -->
 		<div class="bg-white shadow-lg rounded-lg p-6">
-			<h2 class="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+			<h2
+				class="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2"
+			>
 				<span class="text-2xl">💰</span>
 				Income vs Expenses
 			</h2>
-			<IncomeExpenseChart 
-				totalIncome={$summary.total_income} 
-				totalExpenses={$summary.total_expenses} 
+			<IncomeExpenseChart
+				totalIncome={$summary.total_income}
+				totalExpenses={$summary.total_expenses}
 			/>
 		</div>
 
 		<!-- Spending Breakdown Pie Chart -->
 		<div class="bg-white shadow-lg rounded-lg p-6">
-			<h2 class="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+			<h2
+				class="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2"
+			>
 				<span class="text-2xl">📈</span>
 				Spending Breakdown
 			</h2>
@@ -130,7 +146,9 @@
 
 	<!-- Net Balance Chart -->
 	<div class="bg-white shadow-lg rounded-lg p-6">
-		<h2 class="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
+		<h2
+			class="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2"
+		>
 			<span class="text-2xl">🏦</span>
 			Net Balance
 		</h2>

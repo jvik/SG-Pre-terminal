@@ -33,6 +33,8 @@ export const loadSummary = async () => {
 export const loadChartData = async () => {
 	try {
 		const response = await getChartData();
+		console.log('Chart data response:', response);
+		console.log('Chart data array:', response.data);
 		chartData.set(response.data || []);
 	} catch (error) {
 		console.error('Failed to load chart data:', error);
