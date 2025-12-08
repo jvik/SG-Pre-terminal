@@ -20,7 +20,6 @@
             description: "Customize your app preferences",
             icon: "⚙️",
             href: "/settings/preferences",
-            disabled: true,
         },
         {
             title: "Security",

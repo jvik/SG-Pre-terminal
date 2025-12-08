@@ -48,19 +48,19 @@
 	}
 </script>
 
-<div class="p-8 bg-gray-50 min-h-screen">
+<div class="p-8 bg-gray-50 dark:bg-slate-900 min-h-screen">
 	<div class="flex justify-between items-center mb-6">
-		<h1 class="text-3xl font-bold text-gray-800">Dashboard</h1>
+		<h1 class="text-3xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
 		<div class="flex gap-4">
 			<button
 				on:click={handleExport}
-				class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow transition-colors"
+				class="bg-white dark:bg-slate-700 hover:bg-gray-100 dark:hover:bg-slate-600 text-gray-800 dark:text-white font-semibold py-2 px-4 border border-gray-400 dark:border-slate-600 rounded shadow transition-colors"
 			>
 				📊 Export to CSV
 			</button>
 			<button
 				on:click={() => (showTransactionModal = true)}
-				class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow transition-colors"
+				class="bg-blue-500 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow transition-colors"
 			>
 				+ Add Transaction
 			</button>
@@ -119,9 +119,9 @@
 	<!-- Charts Grid -->
 	<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
 		<!-- Income vs Expenses Bar Chart -->
-		<div class="bg-white shadow-lg rounded-lg p-6">
+		<div class="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-slate-700">
 			<h2
-				class="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2"
+				class="text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center gap-2"
 			>
 				<span class="text-2xl">💰</span>
 				Income vs Expenses
@@ -133,9 +133,9 @@
 		</div>
 
 		<!-- Spending Breakdown Pie Chart -->
-		<div class="bg-white shadow-lg rounded-lg p-6">
+		<div class="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-slate-700">
 			<h2
-				class="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2"
+				class="text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center gap-2"
 			>
 				<span class="text-2xl">📈</span>
 				Spending Breakdown
@@ -145,9 +145,9 @@
 	</div>
 
 	<!-- Net Balance Chart -->
-	<div class="bg-white shadow-lg rounded-lg p-6">
+	<div class="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-slate-700">
 		<h2
-			class="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2"
+			class="text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center gap-2"
 		>
 			<span class="text-2xl">🏦</span>
 			Net Balance

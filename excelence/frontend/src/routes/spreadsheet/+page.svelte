@@ -120,16 +120,16 @@
     }
 </script>
 
-<div class="p-8 bg-gray-50 min-h-screen">
+<div class="p-8 bg-gray-50 dark:bg-slate-900 min-h-screen">
     <div class="max-w-7xl mx-auto">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">
+            <h1 class="text-3xl font-bold text-gray-800 dark:text-white">
                 Transaction Spreadsheet
             </h1>
             <button
                 on:click={startAddingNew}
                 disabled={isAddingNew}
-                class="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg font-semibold shadow-md transition-colors flex items-center gap-2"
+                class="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 disabled:bg-gray-400 dark:disabled:bg-slate-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md transition-colors flex items-center gap-2"
             >
                 <svg
                     class="w-5 h-5"
@@ -149,67 +149,73 @@
         </div>
 
         <div
-            class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200"
+            class="bg-white dark:bg-slate-800 shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-slate-700"
         >
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
                     <thead>
-                        <tr class="bg-gradient-to-r from-gray-50 to-gray-100">
+                        <tr class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-600">
                             <th
-                                class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200 w-36"
+                                class="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-slate-200 uppercase tracking-wider border-r border-gray-200 dark:border-slate-600 w-36"
                             >
                                 Date
                             </th>
                             <th
-                                class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200 w-64"
+                                class="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-slate-200 uppercase tracking-wider border-r border-gray-200 dark:border-slate-600 w-64"
                             >
                                 Description
                             </th>
                             <th
-                                class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200 w-48"
+                                class="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-slate-200 uppercase tracking-wider border-r border-gray-200 dark:border-slate-600 w-48"
                             >
                                 Category
                             </th>
                             <th
-                                class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200 w-32"
+                                class="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-slate-200 uppercase tracking-wider border-r border-gray-200 dark:border-slate-600 w-32"
                             >
                                 Type
                             </th>
                             <th
-                                class="px-6 py-4 text-right text-xs font-bold text-gray-700 uppercase tracking-wider border-r border-gray-200 w-36"
+                                class="px-6 py-4 text-right text-xs font-bold text-gray-700 dark:text-slate-200 uppercase tracking-wider border-r border-gray-200 dark:border-slate-600 w-36"
                             >
                                 Amount
                             </th>
                             <th
-                                class="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider w-48"
+                                class="px-6 py-4 text-center text-xs font-bold text-gray-700 dark:text-slate-200 uppercase tracking-wider w-48"
                             >
                                 Actions
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
                         <!-- New Transaction Row -->
                         {#if isAddingNew}
-                            <tr class="bg-blue-50 border-l-4 border-l-blue-500">
-                                <td class="px-4 py-3 border-r border-gray-200 w-36">
+                            <tr class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-l-blue-500 dark:border-l-blue-400">
+                                <td
+                                    class="px-4 py-3 border-r border-gray-200 dark:border-slate-600 w-36"
+                                >
                                     <input
                                         type="date"
                                         bind:value={newTransaction.date}
-                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-slate-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:text-white"
                                     />
                                 </td>
-                                <td class="px-4 py-3 border-r border-gray-200 w-64">
+                                <td
+                                    class="px-4 py-3 border-r border-gray-200 dark:border-slate-600 w-64"
+                                >
                                     <input
                                         type="text"
                                         bind:value={newTransaction.description}
-                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-slate-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:text-white dark:placeholder-slate-400"
                                         placeholder="Description..."
                                     />
                                 </td>
-                                <td class="px-4 py-3 border-r border-gray-200 w-48">
+                                <td
+                                    class="px-4 py-3 border-r border-gray-200 dark:border-slate-600 w-48"
+                                >
                                     <select
                                         bind:value={newTransaction.category_id}
-                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 truncate"
+                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-slate-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 truncate dark:bg-slate-700 dark:text-white"
                                     >
                                         {#each $categories as category}
                                             <option value={category.id}>
@@ -220,21 +226,25 @@
                                         {/each}
                                     </select>
                                 </td>
-                                <td class="px-4 py-3 border-r border-gray-200 w-32">
+                                <td
+                                    class="px-4 py-3 border-r border-gray-200 dark:border-slate-600 w-32"
+                                >
                                     <select
                                         bind:value={newTransaction.type}
-                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-slate-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:text-white"
                                     >
                                         <option value="income">Income</option>
                                         <option value="expense">Expense</option>
                                     </select>
                                 </td>
-                                <td class="px-4 py-3 border-r border-gray-200 w-36">
+                                <td
+                                    class="px-4 py-3 border-r border-gray-200 dark:border-slate-600 w-36"
+                                >
                                     <input
                                         type="number"
                                         step="0.01"
                                         bind:value={newTransaction.amount}
-                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm text-right focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-slate-600 rounded-md shadow-sm text-right focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:text-white"
                                         placeholder="0.00"
                                     />
                                 </td>
@@ -261,27 +271,33 @@
                         {#each $transactions as transaction, index (transaction.id)}
                             {#if editingId === transaction.id && editForm}
                                 <tr
-                                    class="bg-amber-50 border-l-4 border-l-amber-500"
+                                    class="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-l-amber-500 dark:border-l-amber-400"
                                 >
-                                    <td class="px-4 py-3 border-r border-gray-200 w-36">
+                                    <td
+                                        class="px-4 py-3 border-r border-gray-200 dark:border-slate-600 w-36"
+                                    >
                                         <input
                                             type="date"
                                             bind:value={editForm.date}
-                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-slate-600 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-slate-700 dark:text-white"
                                         />
                                     </td>
-                                    <td class="px-4 py-3 border-r border-gray-200 w-64">
+                                    <td
+                                        class="px-4 py-3 border-r border-gray-200 dark:border-slate-600 w-64"
+                                    >
                                         <input
                                             type="text"
                                             bind:value={editForm.description}
-                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-slate-600 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-slate-700 dark:text-white dark:placeholder-slate-400"
                                             placeholder="Description"
                                         />
                                     </td>
-                                    <td class="px-4 py-3 border-r border-gray-200 w-48">
+                                    <td
+                                        class="px-4 py-3 border-r border-gray-200 dark:border-slate-600 w-48"
+                                    >
                                         <select
                                             bind:value={editForm.category_id}
-                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 truncate"
+                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-slate-600 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 truncate dark:bg-slate-700 dark:text-white"
                                         >
                                             {#each $categories as category}
                                                 <option value={category.id}>
@@ -292,25 +308,35 @@
                                             {/each}
                                         </select>
                                     </td>
-                                    <td class="px-4 py-3 border-r border-gray-200 w-32">
+                                    <td
+                                        class="px-4 py-3 border-r border-gray-200 dark:border-slate-600 w-32"
+                                    >
                                         <select
                                             bind:value={editForm.type}
-                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-slate-600 rounded-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-slate-700 dark:text-white"
                                         >
-                                            <option value="income">Income</option>
-                                            <option value="expense">Expense</option>
+                                            <option value="income"
+                                                >Income</option
+                                            >
+                                            <option value="expense"
+                                                >Expense</option
+                                            >
                                         </select>
                                     </td>
-                                    <td class="px-4 py-3 border-r border-gray-200 w-36">
+                                    <td
+                                        class="px-4 py-3 border-r border-gray-200 dark:border-slate-600 w-36"
+                                    >
                                         <input
                                             type="number"
                                             step="0.01"
                                             bind:value={editForm.amount}
-                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md shadow-sm text-right focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                                            class="w-full px-2 py-1.5 text-sm border border-gray-300 dark:border-slate-600 rounded-md shadow-sm text-right focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-slate-700 dark:text-white"
                                         />
                                     </td>
                                     <td class="px-4 py-3 w-48">
-                                        <div class="flex gap-1.5 justify-center">
+                                        <div
+                                            class="flex gap-1.5 justify-center"
+                                        >
                                             <button
                                                 on:click={() =>
                                                     saveEdit(transaction.id)}
@@ -329,13 +355,15 @@
                                 </tr>
                             {:else}
                                 <tr
-                                    class="hover:bg-gray-50 cursor-pointer transition-colors"
-                                    class:bg-white={index % 2 === 0}
-                                    class:bg-gray-50={index % 2 === 1}
+                                    class="hover:bg-gray-50 dark:hover:bg-slate-700 cursor-pointer transition-colors {index %
+                                        2 ===
+                                    0
+                                        ? 'bg-white dark:bg-slate-800'
+                                        : 'bg-gray-50 dark:bg-slate-700/50'}"
                                     on:click={() => startEditing(transaction)}
                                 >
                                     <td
-                                        class="px-6 py-4 border-r border-gray-200 whitespace-nowrap text-sm text-gray-700 font-medium"
+                                        class="px-6 py-4 border-r border-gray-200 dark:border-slate-600 whitespace-nowrap text-sm text-gray-700 dark:text-slate-300 font-medium"
                                     >
                                         {new Date(
                                             transaction.date,
@@ -346,15 +374,15 @@
                                         })}
                                     </td>
                                     <td
-                                        class="px-6 py-4 border-r border-gray-200 text-sm text-gray-900"
+                                        class="px-6 py-4 border-r border-gray-200 dark:border-slate-600 text-sm text-gray-900 dark:text-slate-200"
                                     >
                                         {transaction.description || "—"}
                                     </td>
                                     <td
-                                        class="px-6 py-4 border-r border-gray-200 whitespace-nowrap text-sm"
+                                        class="px-6 py-4 border-r border-gray-200 dark:border-slate-600 whitespace-nowrap text-sm"
                                     >
                                         <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-slate-700 text-gray-800 dark:text-slate-200"
                                         >
                                             {#each $categories as category}
                                                 {#if category.id === transaction.category_id}
@@ -366,18 +394,13 @@
                                         </span>
                                     </td>
                                     <td
-                                        class="px-6 py-4 border-r border-gray-200 whitespace-nowrap text-sm"
+                                        class="px-6 py-4 border-r border-gray-200 dark:border-slate-600 whitespace-nowrap text-sm"
                                     >
                                         <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                                            class:bg-green-100={transaction.type ===
-                                                "income"}
-                                            class:text-green-800={transaction.type ===
-                                                "income"}
-                                            class:bg-red-100={transaction.type ===
-                                                "expense"}
-                                            class:text-red-800={transaction.type ===
-                                                "expense"}
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {transaction.type ===
+                                                'income'
+                                                ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+                                                : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'}"
                                         >
                                             {transaction.type === "income"
                                                 ? "Income"
@@ -385,11 +408,10 @@
                                         </span>
                                     </td>
                                     <td
-                                        class="px-6 py-4 border-r border-gray-200 whitespace-nowrap text-sm text-right font-semibold"
-                                        class:text-green-600={transaction.type ===
-                                            "income"}
-                                        class:text-red-600={transaction.type ===
-                                            "expense"}
+                                        class="px-6 py-4 border-r border-gray-200 dark:border-slate-600 whitespace-nowrap text-sm text-right font-semibold {transaction.type ===
+                                            'income'
+                                            ? 'text-green-600 dark:text-green-400'
+                                            : 'text-red-600 dark:text-red-400'}"
                                     >
                                         {transaction.type === "income"
                                             ? "+"
@@ -398,7 +420,7 @@
                                         )} kr
                                     </td>
                                     <td
-                                        class="px-6 py-4 text-center text-gray-400 text-xs"
+                                        class="px-6 py-4 text-center text-gray-400 dark:text-slate-500 text-xs"
                                     >
                                         <div
                                             class="flex items-center justify-center gap-1"
@@ -428,13 +450,13 @@
                             <tr>
                                 <td
                                     colspan="6"
-                                    class="px-6 py-12 text-center text-gray-500"
+                                    class="px-6 py-12 text-center text-gray-500 dark:text-slate-400"
                                 >
                                     <div
                                         class="flex flex-col items-center gap-2"
                                     >
                                         <svg
-                                            class="w-12 h-12 text-gray-400"
+                                            class="w-12 h-12 text-gray-400 dark:text-slate-500"
                                             fill="none"
                                             stroke="currentColor"
                                             viewBox="0 0 24 24"
@@ -465,29 +487,29 @@
         <!-- Summary footer -->
         {#if $transactions.length > 0}
             <div
-                class="mt-6 bg-gradient-to-r from-white to-gray-50 shadow-lg rounded-lg border border-gray-200 overflow-hidden"
+                class="mt-6 bg-gradient-to-r from-white to-gray-50 dark:from-slate-800 dark:to-slate-700 shadow-lg rounded-lg border border-gray-200 dark:border-slate-600 overflow-hidden"
             >
                 <div
-                    class="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200"
+                    class="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 dark:divide-slate-600"
                 >
                     <!-- Total Transactions -->
                     <div class="p-6 flex flex-col items-center justify-center">
                         <div
-                            class="text-gray-500 text-sm font-medium mb-2 uppercase tracking-wider"
+                            class="text-gray-500 dark:text-slate-400 text-sm font-medium mb-2 uppercase tracking-wider"
                         >
                             Transactions
                         </div>
-                        <div class="text-3xl font-bold text-gray-800">
+                        <div class="text-3xl font-bold text-gray-800 dark:text-white">
                             {$transactions.length}
                         </div>
                     </div>
 
                     <!-- Total Income -->
                     <div
-                        class="p-6 flex flex-col items-center justify-center bg-green-50"
+                        class="p-6 flex flex-col items-center justify-center bg-green-50 dark:bg-green-900/20"
                     >
                         <div
-                            class="text-green-700 text-sm font-medium mb-2 uppercase tracking-wider flex items-center gap-2"
+                            class="text-green-700 dark:text-green-400 text-sm font-medium mb-2 uppercase tracking-wider flex items-center gap-2"
                         >
                             <svg
                                 class="w-4 h-4"
@@ -504,7 +526,7 @@
                             </svg>
                             Income
                         </div>
-                        <div class="text-3xl font-bold text-green-600">
+                        <div class="text-3xl font-bold text-green-600 dark:text-green-400">
                             +{$transactions
                                 .filter((t) => t.type === "income")
                                 .reduce((sum, t) => sum + t.amount, 0)
@@ -517,10 +539,10 @@
 
                     <!-- Total Expenses -->
                     <div
-                        class="p-6 flex flex-col items-center justify-center bg-red-50"
+                        class="p-6 flex flex-col items-center justify-center bg-red-50 dark:bg-red-900/20"
                     >
                         <div
-                            class="text-red-700 text-sm font-medium mb-2 uppercase tracking-wider flex items-center gap-2"
+                            class="text-red-700 dark:text-red-400 text-sm font-medium mb-2 uppercase tracking-wider flex items-center gap-2"
                         >
                             <svg
                                 class="w-4 h-4"
@@ -537,23 +559,23 @@
                             </svg>
                             Expenses
                         </div>
-                        <div class="text-3xl font-bold text-red-600">
+                        <div class="text-3xl font-bold text-red-600 dark:text-red-400">
                             -{$transactions
                                 .filter((t) => t.type === "expense")
                                 .reduce((sum, t) => sum + t.amount, 0)
                                 .toFixed(2)}
                         </div>
-                        <div class="text-sm text-red-600 font-medium mt-1">
+                        <div class="text-sm text-red-600 dark:text-red-400 font-medium mt-1">
                             kr
                         </div>
                     </div>
 
                     <!-- Net Balance -->
                     <div
-                        class="p-6 flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50"
+                        class="p-6 flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20"
                     >
                         <div
-                            class="text-blue-700 text-sm font-medium mb-2 uppercase tracking-wider flex items-center gap-2"
+                            class="text-blue-700 dark:text-blue-400 text-sm font-medium mb-2 uppercase tracking-wider flex items-center gap-2"
                         >
                             <svg
                                 class="w-4 h-4"
@@ -570,7 +592,7 @@
                             </svg>
                             Net Balance
                         </div>
-                        <div class="text-3xl font-bold text-blue-700">
+                        <div class="text-3xl font-bold text-blue-700 dark:text-blue-400">
                             {(
                                 $transactions
                                     .filter((t) => t.type === "income")
@@ -580,7 +602,7 @@
                                     .reduce((sum, t) => sum + t.amount, 0)
                             ).toFixed(2)}
                         </div>
-                        <div class="text-sm text-blue-700 font-medium mt-1">
+                        <div class="text-sm text-blue-700 dark:text-blue-400 font-medium mt-1">
                             kr
                         </div>
                     </div>

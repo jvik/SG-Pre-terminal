@@ -2,6 +2,7 @@
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import { authStore } from '$lib/stores/auth';
+	import { themeStore } from '$lib/stores/theme';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
@@ -20,6 +21,13 @@
 			if (!publicRoutes.includes($page.url.pathname)) {
 				goto('/login');
 			}
+		}
+	});
+
+	// Initialize theme on mount
+	$effect(() => {
+		if (browser) {
+			themeStore.init();
 		}
 	});
 </script>
