@@ -1,6 +1,11 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { getCategories, createCategory, updateCategory, deleteCategory } from '$lib/services/api';
+	import { onMount } from "svelte";
+	import {
+		getCategories,
+		createCategory,
+		updateCategory,
+		deleteCategory,
+	} from "$lib/services/api";
 
 	let categories: { id: number; name: string; emoji?: string }[] = [];
 	let isLoading = true;
@@ -10,12 +15,31 @@
 	let showModal = false;
 	let isEditing = false;
 	let categoryToEditId: number | null = null;
-	let categoryNameInput = '';
-	let categoryEmojiInput = '📂';
+	let categoryNameInput = "";
+	let categoryEmojiInput = "📂";
 	let modalError: string | null = null;
 
 	// Common emojis for categories
-	const commonEmojis = ['📂', '🍔', '🏠', '🚗', '💰', '🎮', '📱', '👕', '🎬', '✈️', '🏥', '📚', '🎵', '⚽', '🛒', '☕', '🎁', '💼'];
+	const commonEmojis = [
+		"📂",
+		"🍔",
+		"🏠",
+		"🚗",
+		"💰",
+		"🎮",
+		"📱",
+		"👕",
+		"🎬",
+		"✈️",
+		"🏥",
+		"📚",
+		"🎵",
+		"⚽",
+		"🛒",
+		"☕",
+		"🎁",
+		"💼",
+	];
 
 	// Delete confirmation state
 	let showDeleteConfirm = false;
@@ -41,17 +65,21 @@
 	function openAddModal() {
 		isEditing = false;
 		categoryToEditId = null;
-		categoryNameInput = '';
-		categoryEmojiInput = '📂';
+		categoryNameInput = "";
+		categoryEmojiInput = "📂";
 		modalError = null;
 		showModal = true;
 	}
 
-	function openEditModal(category: { id: number; name: string; emoji?: string }) {
+	function openEditModal(category: {
+		id: number;
+		name: string;
+		emoji?: string;
+	}) {
 		isEditing = true;
 		categoryToEditId = category.id;
 		categoryNameInput = category.name;
-		categoryEmojiInput = category.emoji || '📂';
+		categoryEmojiInput = category.emoji || "📂";
 		modalError = null;
 		showModal = true;
 	}
@@ -62,25 +90,31 @@
 
 	async function handleSave() {
 		if (!categoryNameInput.trim()) {
-			modalError = 'Category name cannot be empty.';
+			modalError = "Category name cannot be empty.";
 			return;
 		}
-		
+
 		// Check for duplicate names (case-insensitive)
 		const normalizedName = categoryNameInput.trim().toLowerCase();
-		const isDuplicate = categories.some(cat => 
-			cat.name.toLowerCase() === normalizedName && cat.id !== categoryToEditId
+		const isDuplicate = categories.some(
+			(cat) =>
+				cat.name.toLowerCase() === normalizedName &&
+				cat.id !== categoryToEditId,
 		);
-		
+
 		if (isDuplicate) {
-			modalError = 'A category with this name already exists.';
+			modalError = "A category with this name already exists.";
 			return;
 		}
-		
+
 		try {
 			modalError = null;
 			if (isEditing && categoryToEditId !== null) {
-				await updateCategory(categoryToEditId, categoryNameInput, categoryEmojiInput);
+				await updateCategory(
+					categoryToEditId,
+					categoryNameInput,
+					categoryEmojiInput,
+				);
 			} else {
 				await createCategory(categoryNameInput, categoryEmojiInput);
 			}
@@ -129,7 +163,10 @@
 	{#if isLoading}
 		<p>Loading categories...</p>
 	{:else if error}
-		<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+		<div
+			class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+			role="alert"
+		>
 			<strong class="font-bold">Error:</strong>
 			<span class="block sm:inline">{error}</span>
 		</div>
@@ -146,7 +183,9 @@
 				<tbody>
 					{#each categories as category (category.id)}
 						<tr class="border-b">
-							<td class="px-4 py-2 text-2xl">{category.emoji || '📂'}</td>
+							<td class="px-4 py-2 text-2xl"
+								>{category.emoji || "📂"}</td
+							>
 							<td class="px-4 py-2">{category.name}</td>
 							<td class="px-4 py-2 text-right">
 								<button
@@ -156,7 +195,8 @@
 									Edit
 								</button>
 								<button
-									on:click={() => openDeleteConfirm(category.id)}
+									on:click={() =>
+										openDeleteConfirm(category.id)}
 									class="text-red-500 hover:underline"
 								>
 									Delete
@@ -172,15 +212,21 @@
 
 <!-- Add/Edit Modal -->
 {#if showModal}
-	<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+	<div
+		class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+	>
 		<div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
-			<h2 class="text-xl font-bold mb-4">{isEditing ? 'Edit' : 'Add'} Category</h2>
+			<h2 class="text-xl font-bold mb-4">
+				{isEditing ? "Edit" : "Add"} Category
+			</h2>
 			{#if modalError}
 				<p class="text-red-500 text-sm mb-4">{modalError}</p>
 			{/if}
-			
+
 			<div class="mb-4">
-				<label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
+				<label class="block text-sm font-medium text-gray-700 mb-2"
+					>Icon</label
+				>
 				<div class="flex items-center gap-2 mb-2">
 					<input
 						type="text"
@@ -195,17 +241,22 @@
 					{#each commonEmojis as emoji}
 						<button
 							type="button"
-							on:click={() => categoryEmojiInput = emoji}
-							class="text-2xl p-2 rounded hover:bg-gray-100 {categoryEmojiInput === emoji ? 'bg-blue-100' : ''}"
+							on:click={() => (categoryEmojiInput = emoji)}
+							class="text-2xl p-2 rounded hover:bg-gray-100 {categoryEmojiInput ===
+							emoji
+								? 'bg-blue-100'
+								: ''}"
 						>
 							{emoji}
 						</button>
 					{/each}
 				</div>
 			</div>
-			
+
 			<div class="mb-4">
-				<label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+				<label class="block text-sm font-medium text-gray-700 mb-2"
+					>Name</label
+				>
 				<input
 					type="text"
 					bind:value={categoryNameInput}
@@ -214,7 +265,9 @@
 				/>
 			</div>
 			<div class="flex justify-end gap-4">
-				<button on:click={closeModal} class="text-gray-600">Cancel</button>
+				<button on:click={closeModal} class="text-gray-600"
+					>Cancel</button
+				>
 				<button
 					on:click={handleSave}
 					class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -228,13 +281,23 @@
 
 <!-- Delete Confirmation Modal -->
 {#if showDeleteConfirm}
-	<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+	<div
+		class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+	>
 		<div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
 			<h2 class="text-xl font-bold mb-4">Confirm Deletion</h2>
-			<p>Are you sure you want to delete this category? This action cannot be undone.</p>
-            <p class="text-sm text-gray-600 mt-2">Note: Deletion will be blocked if the category is in use by any transactions.</p>
+			<p>
+				Are you sure you want to delete this category? This action
+				cannot be undone.
+			</p>
+			<p class="text-sm text-gray-600 mt-2">
+				Note: Deletion will be blocked if the category is in use by any
+				transactions.
+			</p>
 			<div class="flex justify-end gap-4 mt-6">
-				<button on:click={closeDeleteConfirm} class="text-gray-600">Cancel</button>
+				<button on:click={closeDeleteConfirm} class="text-gray-600"
+					>Cancel</button
+				>
 				<button
 					on:click={confirmDelete}
 					class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
