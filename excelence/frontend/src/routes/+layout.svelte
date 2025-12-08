@@ -17,7 +17,7 @@
 
 	$effect(() => {
 		if (browser && !$authStore.isAuthenticated) {
-			const publicRoutes = ["/login", "/register"];
+			const publicRoutes = ["/", "/login", "/register"];
 			if (!publicRoutes.includes($page.url.pathname)) {
 				goto("/login");
 			}
