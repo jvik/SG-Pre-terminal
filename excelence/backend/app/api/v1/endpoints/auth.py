@@ -20,9 +20,24 @@ def signup(user: UserCreate):
             "password": user.password,
         })
         
-        # Supabase returns user without session when email confirmation is required
-        # This is normal behavior for new users, not a duplicate
+        # Check if signup was successful
+        # When a user already exists and email confirmations are enabled,
+        # Supabase may return an empty user or specific identities
+        if res.user:
+            # Check if this is a fake confirmation (duplicate user)
+            # Supabase returns identities[] only for real new signups or existing confirmed users
+            identities = getattr(res.user, 'identities', None)
+            if identities is not None and len(identities) == 0:
+                # Empty identities array means user already exists but Supabase is hiding it
+                raise HTTPException(
+                    status_code=400,
+                    detail="A user with this email already exists. Please log in or use a different email."
+                )
+        
         return res
+    except HTTPException:
+        # Re-raise HTTP exceptions
+        raise
     except Exception as e:
         error_msg = str(e)
         # Check for common duplicate user error messages from Supabase

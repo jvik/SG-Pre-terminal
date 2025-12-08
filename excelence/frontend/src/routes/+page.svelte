@@ -11,17 +11,20 @@
 	onMount(() => {
 		// Check for email verification callback (Supabase redirects with hash)
 		if (browser && window.location.hash) {
-			const hashParams = new URLSearchParams(window.location.hash.substring(1));
+			const hashParams = new URLSearchParams(
+				window.location.hash.substring(1),
+			);
 			const accessToken = hashParams.get("access_token");
 			const type = hashParams.get("type");
-			
+
 			if (accessToken && type === "signup") {
 				isProcessingVerification = true;
-				verificationMessage = "Email verified successfully! Redirecting to login...";
-				
+				verificationMessage =
+					"Email verified successfully! Redirecting to login...";
+
 				// Clear the hash from URL
 				window.history.replaceState(null, "", window.location.pathname);
-				
+
 				// Redirect to login page after a short delay
 				setTimeout(() => {
 					goto("/login?verified=true");
@@ -32,7 +35,11 @@
 
 	// Reactive redirect - runs whenever authStore changes
 	$effect(() => {
-		if (browser && $authStore.isAuthenticated && !isProcessingVerification) {
+		if (
+			browser &&
+			$authStore.isAuthenticated &&
+			!isProcessingVerification
+		) {
 			goto("/dashboard");
 		}
 	});
@@ -52,7 +59,9 @@
 					clip-rule="evenodd"
 				/>
 			</svg>
-			<h2 class="text-2xl font-bold text-gray-900 mb-2">Email Verified!</h2>
+			<h2 class="text-2xl font-bold text-gray-900 mb-2">
+				Email Verified!
+			</h2>
 			<p class="text-gray-600">{verificationMessage}</p>
 		</div>
 	</div>

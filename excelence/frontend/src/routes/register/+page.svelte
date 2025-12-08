@@ -144,10 +144,7 @@
     <div class="pt-4 text-center border-t">
       <p class="text-sm text-gray-600">
         Already have an account?
-        <a
-          href="/login"
-          class="font-medium text-blue-600 hover:text-blue-500"
-        >
+        <a href="/login" class="font-medium text-blue-600 hover:text-blue-500">
           Login here
         </a>
       </p>
