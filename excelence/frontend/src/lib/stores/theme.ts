@@ -19,12 +19,24 @@ function createThemeStore() {
 
         const root = document.documentElement;
         
+        console.log('applyTheme called with:', theme);
+        console.log('Before - classList:', root.classList.toString());
+
         if (theme === 'system') {
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            root.classList.toggle('dark', prefersDark);
+            if (prefersDark) {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
+        } else if (theme === 'dark') {
+            root.classList.add('dark');
         } else {
-            root.classList.toggle('dark', theme === 'dark');
+            root.classList.remove('dark');
         }
+        
+        console.log('After - classList:', root.classList.toString());
+        console.log('Has dark class:', root.classList.contains('dark'));
     };
 
     // Listen to system preference changes
@@ -43,11 +55,11 @@ function createThemeStore() {
     return {
         subscribe,
         setTheme: (theme: Theme) => {
+            set(theme);
             if (browser) {
                 localStorage.setItem('theme', theme);
                 applyTheme(theme);
             }
-            set(theme);
         },
         // Initialize theme on app load
         init: () => {

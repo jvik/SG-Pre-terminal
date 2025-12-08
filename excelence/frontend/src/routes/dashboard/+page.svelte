@@ -50,7 +50,9 @@
 
 <div class="p-8 bg-gray-50 dark:bg-slate-900 min-h-screen">
 	<div class="flex justify-between items-center mb-6">
-		<h1 class="text-3xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
+		<h1 class="text-3xl font-bold text-gray-800 dark:text-white">
+			Dashboard
+		</h1>
 		<div class="flex gap-4">
 			<button
 				on:click={handleExport}
@@ -119,7 +121,9 @@
 	<!-- Charts Grid -->
 	<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
 		<!-- Income vs Expenses Bar Chart -->
-		<div class="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-slate-700">
+		<div
+			class="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-slate-700"
+		>
 			<h2
 				class="text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center gap-2"
 			>
@@ -133,7 +137,9 @@
 		</div>
 
 		<!-- Spending Breakdown Pie Chart -->
-		<div class="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-slate-700">
+		<div
+			class="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-slate-700"
+		>
 			<h2
 				class="text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center gap-2"
 			>
@@ -145,7 +151,9 @@
 	</div>
 
 	<!-- Net Balance Chart -->
-	<div class="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-slate-700">
+	<div
+		class="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-6 border border-gray-200 dark:border-slate-700"
+	>
 		<h2
 			class="text-xl font-bold mb-4 text-gray-800 dark:text-white flex items-center gap-2"
 		>

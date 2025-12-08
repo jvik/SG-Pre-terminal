@@ -2,14 +2,11 @@
     import { themeStore } from "$lib/stores/theme";
     import type { Theme } from "$lib/stores/theme";
 
-    let currentTheme = $state($themeStore);
-
-    $effect(() => {
-        currentTheme = $themeStore;
-    });
-
     function selectTheme(theme: Theme) {
+        console.log('Selecting theme:', theme);
         themeStore.setTheme(theme);
+        console.log('Theme store after set:', $themeStore);
+        console.log('HTML element classes:', document.documentElement.classList.toString());
     }
 
     const themeOptions = [
@@ -46,9 +43,7 @@
 
     <!-- Theme Section -->
     <section class="mb-8">
-        <h2
-            class="text-xl font-bold text-slate-900 dark:text-white mb-1"
-        >
+        <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">
             Theme
         </h2>
         <p class="text-slate-600 dark:text-slate-400 mb-6">
@@ -61,14 +56,14 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {#each themeOptions as option}
                     <button
-                        class="p-4 rounded-lg border-2 text-left transition-all {currentTheme ===
+                        class="p-4 rounded-lg border-2 text-left transition-all {$themeStore ===
                         option.value
                             ? 'border-blue-500 ring-2 ring-blue-500/50 bg-blue-50 dark:bg-blue-900/20'
                             : 'border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-600'}"
                         onclick={() => selectTheme(option.value)}
                     >
                         <span
-                            class="text-2xl mb-2 block {currentTheme ===
+                            class="text-2xl mb-2 block {$themeStore ===
                             option.value
                                 ? ''
                                 : 'opacity-70'}"
@@ -91,9 +86,7 @@
 
     <!-- Future Preferences Sections -->
     <section class="mb-8">
-        <h2
-            class="text-xl font-bold text-slate-900 dark:text-white mb-1"
-        >
+        <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">
             Notifications
         </h2>
         <p class="text-slate-600 dark:text-slate-400 mb-6">
@@ -123,9 +116,7 @@
 
     <!-- Language Section -->
     <section class="mb-8">
-        <h2
-            class="text-xl font-bold text-slate-900 dark:text-white mb-1"
-        >
+        <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-1">
             Language & Region
         </h2>
         <p class="text-slate-600 dark:text-slate-400 mb-6">

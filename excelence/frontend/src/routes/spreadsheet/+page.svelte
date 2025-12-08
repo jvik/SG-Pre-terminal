@@ -152,9 +152,13 @@
             class="bg-white dark:bg-slate-800 shadow-lg rounded-lg overflow-hidden border border-gray-200 dark:border-slate-700"
         >
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
+                <table
+                    class="min-w-full divide-y divide-gray-200 dark:divide-slate-700"
+                >
                     <thead>
-                        <tr class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-600">
+                        <tr
+                            class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-600"
+                        >
                             <th
                                 class="px-6 py-4 text-left text-xs font-bold text-gray-700 dark:text-slate-200 uppercase tracking-wider border-r border-gray-200 dark:border-slate-600 w-36"
                             >
@@ -187,10 +191,14 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
+                    <tbody
+                        class="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700"
+                    >
                         <!-- New Transaction Row -->
                         {#if isAddingNew}
-                            <tr class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-l-blue-500 dark:border-l-blue-400">
+                            <tr
+                                class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-l-blue-500 dark:border-l-blue-400"
+                            >
                                 <td
                                     class="px-4 py-3 border-r border-gray-200 dark:border-slate-600 w-36"
                                 >
@@ -398,7 +406,7 @@
                                     >
                                         <span
                                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {transaction.type ===
-                                                'income'
+                                            'income'
                                                 ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
                                                 : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'}"
                                         >
@@ -409,7 +417,7 @@
                                     </td>
                                     <td
                                         class="px-6 py-4 border-r border-gray-200 dark:border-slate-600 whitespace-nowrap text-sm text-right font-semibold {transaction.type ===
-                                            'income'
+                                        'income'
                                             ? 'text-green-600 dark:text-green-400'
                                             : 'text-red-600 dark:text-red-400'}"
                                     >
@@ -499,7 +507,9 @@
                         >
                             Transactions
                         </div>
-                        <div class="text-3xl font-bold text-gray-800 dark:text-white">
+                        <div
+                            class="text-3xl font-bold text-gray-800 dark:text-white"
+                        >
                             {$transactions.length}
                         </div>
                     </div>
@@ -526,7 +536,9 @@
                             </svg>
                             Income
                         </div>
-                        <div class="text-3xl font-bold text-green-600 dark:text-green-400">
+                        <div
+                            class="text-3xl font-bold text-green-600 dark:text-green-400"
+                        >
                             +{$transactions
                                 .filter((t) => t.type === "income")
                                 .reduce((sum, t) => sum + t.amount, 0)
@@ -559,13 +571,17 @@
                             </svg>
                             Expenses
                         </div>
-                        <div class="text-3xl font-bold text-red-600 dark:text-red-400">
+                        <div
+                            class="text-3xl font-bold text-red-600 dark:text-red-400"
+                        >
                             -{$transactions
                                 .filter((t) => t.type === "expense")
                                 .reduce((sum, t) => sum + t.amount, 0)
                                 .toFixed(2)}
                         </div>
-                        <div class="text-sm text-red-600 dark:text-red-400 font-medium mt-1">
+                        <div
+                            class="text-sm text-red-600 dark:text-red-400 font-medium mt-1"
+                        >
                             kr
                         </div>
                     </div>
@@ -592,7 +608,9 @@
                             </svg>
                             Net Balance
                         </div>
-                        <div class="text-3xl font-bold text-blue-700 dark:text-blue-400">
+                        <div
+                            class="text-3xl font-bold text-blue-700 dark:text-blue-400"
+                        >
                             {(
                                 $transactions
                                     .filter((t) => t.type === "income")
@@ -602,7 +620,9 @@
                                     .reduce((sum, t) => sum + t.amount, 0)
                             ).toFixed(2)}
                         </div>
-                        <div class="text-sm text-blue-700 dark:text-blue-400 font-medium mt-1">
+                        <div
+                            class="text-sm text-blue-700 dark:text-blue-400 font-medium mt-1"
+                        >
                             kr
                         </div>
                     </div>
