@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from app.db.session import supabase
 
@@ -83,3 +84,13 @@ def resend_verification(data: ResendVerification):
         return {"message": "Verification email sent successfully"}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/callback")
+def auth_callback():
+    """
+    Handle email verification callback from Supabase.
+    Redirects to frontend with hash parameters preserved.
+    """
+    # Supabase will send the user here after email verification
+    # We redirect to frontend which will handle the token in the hash
+    return RedirectResponse(url="http://localhost:5173", status_code=307)
