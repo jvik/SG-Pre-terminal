@@ -28,7 +28,7 @@ install:
 # Install backend dependencies
 install-backend:
     @echo "Installing backend dependencies..."
-    cd excelence/backend && uv pip install -e ".[dev]"
+    cd excelence/backend && uv venv && uv pip install -e ".[dev]"
 
 # Install frontend dependencies
 install-frontend:
