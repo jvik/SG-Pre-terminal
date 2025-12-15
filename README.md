@@ -73,6 +73,7 @@ just dev
 **Backend:**
 ```bash
 cd excelence/backend
+uv venv
 uv pip install -e ".[dev]"
 uv run uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
